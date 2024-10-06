@@ -2,8 +2,8 @@
 This project focuses on the Verification of Data Encryption Standard (DES) Using the Universal Verification Methodology (UVM).
 The **Data Encryption Standard (DES)** is a symmetric key algorithm used to encrypt and decrypt data in blocks of 64 bits, with a 64-bit key.
 The RTL design of DES is sourced from OpenCores.
+![des block diagram - Page 1](https://github.com/user-attachments/assets/c00c1c45-699c-4671-b998-8c609a067a7e)
 
-![des block diagram](https://github.com/user-attachments/assets/b139688f-5a93-4b2b-84e9-738a3211de4d)
 ## Interface Signals
 The following table describes the interface signals used in the DES module:
 
@@ -24,11 +24,12 @@ The following table describes the interface signals used in the DES module:
 ## Coverage Results
 
 - **Functional Coverage**:
-![image](https://github.com/user-attachments/assets/4c90c9fa-7a34-44a0-b0ea-4e1a0188d02a)
+- ![Picture4](https://github.com/user-attachments/assets/f35c0211-02de-48db-9e46-d72ce3ccc444)
 
 
-- **Code Coverage**: 
-![image](https://github.com/user-attachments/assets/65acab27-56b7-42ee-b0bb-2643828373f5)
+- **Code Coverage**:
+- ![Picture3](https://github.com/user-attachments/assets/6a18da85-63e2-4223-94bf-88b62609b20d)
+
 
 
 For more information about the DES algorithm, please refer to the DES specification in the `doc/DES_spec` directory.
