@@ -26,7 +26,6 @@ The following table describes the interface signals used in the DES module:
 - **Functional Coverage**:
 - ![Picture4](https://github.com/user-attachments/assets/f35c0211-02de-48db-9e46-d72ce3ccc444)
 
-
 - **Code Coverage**:
 - ![Picture3](https://github.com/user-attachments/assets/6a18da85-63e2-4223-94bf-88b62609b20d)
 
