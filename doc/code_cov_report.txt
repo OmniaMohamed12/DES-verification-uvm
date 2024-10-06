@@ -1,0 +1,2586 @@
+Coverage Report by DU with details
+
+=================================================================================
+=== Design Unit: work.des
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                         8         8         0   100.00%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.des
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File des.v
+------------------------------------IF Branch------------------------------------
+    132                                   187188     Count coming in to IF
+    132             1                      19704        if(!reset)
+    141             1                     167484        else
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------CASE Branch------------------------------------
+    259                                   197040     Count coming in to CASE
+    261             1                      39408       	   0:
+    280             1                       9852     	   15:
+    283             1                     147780     	   default:	
+Branch totals: 3 hits of 3 branches = 100.00%
+
+------------------------------------IF Branch------------------------------------
+    263                                    39408     Count coming in to IF
+    263             1                       9852     	   if(load_i)
+    271             1                       9852     	   else if (!data_ready)
+                                           19704     All False Count
+Branch totals: 3 hits of 3 branches = 100.00%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                     223       223         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.des --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File des.v
+    60                                               module des(clk,reset,load_i,decrypt_i,data_i,key_i,data_o,ready_o);
+    61                                               input clk;
+    62                                               input reset;
+    63                                               input load_i;
+    64                                               input decrypt_i;
+    65                                               input [63:0] data_i;
+    66                                               input [63:0] key_i;
+    67                                               output [63:0] data_o;
+    68                                               output ready_o;
+    69                                               
+    70                                               reg [63:0] data_o;
+    71                                               reg ready_o;
+    72                                               
+    73                                               
+    74                                               reg [3:0] stage1_iter;
+    75                                               
+    76                                               reg [3:0] next_stage1_iter;
+    77                                               
+    78                                               reg next_ready_o;
+    79                                               
+    80                                               reg[63:0] next_data_o;
+    81                                               
+    82                                               reg data_ready;
+    83                                               
+    84                                               reg next_data_ready;
+    85                                               
+    86                                               reg [31:0] stage1_L_i;
+    87                                               
+    88                                               reg [31:0] stage1_R_i;
+    89                                               
+    90                                               reg [55:0] stage1_round_key_i;
+    91                                               
+    92                                               reg [3:0] stage1_iteration_i;
+    93                                               wire [31:0] stage1_R_o;
+    94                                               wire [31:0] stage1_L_o;
+    95                                               wire [55:0] stage1_round_key_o;
+    96                                               wire [5:0] s1_stag1_i;
+    97                                               wire [5:0] s2_stag1_i;
+    98                                               wire [5:0] s3_stag1_i;
+    99                                               wire [5:0] s4_stag1_i;
+    100                                              wire [5:0] s5_stag1_i;
+    101                                              wire [5:0] s6_stag1_i;
+    102                                              wire [5:0] s7_stag1_i;
+    103                                              wire [5:0] s8_stag1_i;
+    104                                              wire [3:0] s1_stag1_o;
+    105                                              wire [3:0] s2_stag1_o;
+    106                                              wire [3:0] s3_stag1_o;
+    107                                              wire [3:0] s4_stag1_o;
+    108                                              wire [3:0] s5_stag1_o;
+    109                                              wire [3:0] s6_stag1_o;
+    110                                              wire [3:0] s7_stag1_o;
+    111                                              wire [3:0] s8_stag1_o;
+    112                                              
+    113                                              reg[31:0]  L_i_var,R_i_var;	
+    114                                              reg[63:0]  data_i_var,data_o_var,data_o_var_t,key_i_var;
+    115                                              reg[55:0]  key_var_perm;
+    116                                              
+    117                                              
+    118                                              desround rd1 (.clk(clk), .reset(reset), .iteration_i(stage1_iteration_i), .decrypt_i(decrypt_i), .R_i(stage1_R_i), .L_i(stage1_L_i), .Key_i(stage1_round_key_i), .R_o(stage1_R_o), .L_o(stage1_L_o), .Key_o(stage1_round_key_o), .s1_o(s1_stag1_i), .s2_o(s2_stag1_i), .s3_o(s3_stag1_i), .s4_o(s4_stag1_i), .s5_o(s5_stag1_i), .s6_o(s6_stag1_i), .s7_o(s7_stag1_i), .s8_o(s8_stag1_i), .s1_i(s1_stag1_o), .s2_i(s2_stag1_o), .s3_i(s3_stag1_o), .s4_i(s4_stag1_o), .s5_i(s5_stag1_o), .s6_i(s6_stag1_o), .s7_i(s7_stag1_o), .s8_i(s8_stag1_o));
+    119                                              s1 sbox1 (.stage1_input(s1_stag1_i), .stage1_output(s1_stag1_o));
+    120                                              s2 sbox2 (.stage1_input(s2_stag1_i), .stage1_output(s2_stag1_o));
+    121                                              s3 sbox3 (.stage1_input(s3_stag1_i), .stage1_output(s3_stag1_o));
+    122                                              s4 sbox4 (.stage1_input(s4_stag1_i), .stage1_output(s4_stag1_o));
+    123                                              s5 sbox5 (.stage1_input(s5_stag1_i), .stage1_output(s5_stag1_o));
+    124                                              s6 sbox6 (.stage1_input(s6_stag1_i), .stage1_output(s6_stag1_o));
+    125                                              s7 sbox7 (.stage1_input(s7_stag1_i), .stage1_output(s7_stag1_o));
+    126                                              s8 sbox8 (.stage1_input(s8_stag1_i), .stage1_output(s8_stag1_o));
+    127                                              
+    128             1                     187188     always @(posedge clk or negedge reset)
+    129                                              
+    130                                              begin
+    131                                              
+    132                                                 if(!reset)
+    133                                                 begin
+    134                                              
+    135             1                      19704     	 ready_o = (0);
+    136             1                      19704     	 data_o = (0);  
+    137             1                      19704     	 stage1_iter = (0);
+    138             1                      19704          data_ready = (1);
+    139                                                 
+    140                                                 end
+    141                                                 else
+    142                                                 begin
+    143                                              
+    144             1                     167484     	 ready_o = (next_ready_o);
+    145             1                     167484     	 data_o = (next_data_o);
+    146             1                     167484     	 stage1_iter = (next_stage1_iter);
+    147             1                     167484     	 data_ready = (next_data_ready);
+    148                                                 
+    149                                                 end
+    150                                              end
+    151                                              
+    152                                              
+    153             1                     197040     always @(  data_i or   key_i or   load_i or   stage1_iter or   data_ready or stage1_R_o or stage1_L_o or stage1_round_key_o)
+    154                                              
+    155                                              begin
+    156                                              
+    157                                                 
+    158                                                 
+    159             1                     197040        L_i_var=0;
+    160             1                     197040        R_i_var=0;
+    161             1                     197040        data_i_var=0;
+    162                                                 
+    163             1                     197040        next_ready_o = (0);
+    164             1                     197040        next_data_ready = (data_ready);
+    165             1                     197040        next_stage1_iter = (stage1_iter);
+    166                                              
+    167             1                     197040        stage1_L_i = (0);
+    168             1                     197040        stage1_R_i = (0);
+    169             1                     197040        stage1_round_key_i = (0);
+    170                                              	
+    171                                              
+    172             1                     197040        key_i_var=key_i;
+    173                                              	
+    174             1                     197040        key_var_perm[55]=key_i_var[7];key_var_perm[54]=key_i_var[15];key_var_perm[53]=key_i_var[23];key_var_perm[52]=key_i_var[31];
+    174             2                     197040     
+    174             3                     197040     
+    174             4                     197040     
+    175             1                     197040        key_var_perm[51]=key_i_var[39];key_var_perm[50]=key_i_var[47];key_var_perm[49]=key_i_var[55];key_var_perm[48]=key_i_var[63];
+    175             2                     197040     
+    175             3                     197040     
+    175             4                     197040     
+    176                                              
+    177             1                     197040        key_var_perm[47]=key_i_var[6];key_var_perm[46]=key_i_var[14];key_var_perm[45]=key_i_var[22];key_var_perm[44]=key_i_var[30];
+    177             2                     197040     
+    177             3                     197040     
+    177             4                     197040     
+    178             1                     197040        key_var_perm[43]=key_i_var[38];key_var_perm[42]=key_i_var[46];key_var_perm[41]=key_i_var[54];key_var_perm[40]=key_i_var[62];
+    178             2                     197040     
+    178             3                     197040     
+    178             4                     197040     
+    179                                              	
+    180             1                     197040        key_var_perm[39]=key_i_var[5];key_var_perm[38]=key_i_var[13];key_var_perm[37]=key_i_var[21];key_var_perm[36]=key_i_var[29];
+    180             2                     197040     
+    180             3                     197040     
+    180             4                     197040     
+    181             1                     197040        key_var_perm[35]=key_i_var[37];key_var_perm[34]=key_i_var[45];key_var_perm[33]=key_i_var[53];key_var_perm[32]=key_i_var[61];
+    181             2                     197040     
+    181             3                     197040     
+    181             4                     197040     
+    182                                                 
+    183             1                     197040        key_var_perm[31]=key_i_var[4];key_var_perm[30]=key_i_var[12];key_var_perm[29]=key_i_var[20];key_var_perm[28]=key_i_var[28];
+    183             2                     197040     
+    183             3                     197040     
+    183             4                     197040     
+    184             1                     197040        key_var_perm[27]=key_i_var[1];key_var_perm[26]=key_i_var[9];key_var_perm[25]=key_i_var[17];key_var_perm[24]=key_i_var[25];
+    184             2                     197040     
+    184             3                     197040     
+    184             4                     197040     
+    185                                                 
+    186             1                     197040        key_var_perm[23]=key_i_var[33];key_var_perm[22]=key_i_var[41];key_var_perm[21]=key_i_var[49];key_var_perm[20]=key_i_var[57];
+    186             2                     197040     
+    186             3                     197040     
+    186             4                     197040     
+    187             1                     197040        key_var_perm[19]=key_i_var[2];key_var_perm[18]=key_i_var[10];key_var_perm[17]=key_i_var[18];key_var_perm[16]=key_i_var[26];
+    187             2                     197040     
+    187             3                     197040     
+    187             4                     197040     
+    188                                                 
+    189             1                     197040        key_var_perm[15]=key_i_var[34];key_var_perm[14]=key_i_var[42];key_var_perm[13]=key_i_var[50];key_var_perm[12]=key_i_var[58];
+    189             2                     197040     
+    189             3                     197040     
+    189             4                     197040     
+    190             1                     197040        key_var_perm[11]=key_i_var[3];key_var_perm[10]=key_i_var[11];key_var_perm[9]=key_i_var[19];key_var_perm[8]=key_i_var[27];
+    190             2                     197040     
+    190             3                     197040     
+    190             4                     197040     
+    191                                                 
+    192             1                     197040        key_var_perm[7]=key_i_var[35];key_var_perm[6]=key_i_var[43];key_var_perm[5]=key_i_var[51];key_var_perm[4]=key_i_var[59];
+    192             2                     197040     
+    192             3                     197040     
+    192             4                     197040     
+    193             1                     197040        key_var_perm[3]=key_i_var[36];key_var_perm[2]=key_i_var[44];key_var_perm[1]=key_i_var[52];key_var_perm[0]=key_i_var[60];
+    193             2                     197040     
+    193             3                     197040     
+    193             4                     197040     
+    194                                                 
+    195                                              	
+    196             1                     197040        data_i_var=data_i;
+    197             1                     197040        L_i_var[31]=data_i_var[6];L_i_var[30]=data_i_var[14];L_i_var[29]=data_i_var[22];L_i_var[28]=data_i_var[30];
+    197             2                     197040     
+    197             3                     197040     
+    197             4                     197040     
+    198             1                     197040        L_i_var[27]=data_i_var[38];L_i_var[26]=data_i_var[46];L_i_var[25]=data_i_var[54];L_i_var[24]=data_i_var[62];
+    198             2                     197040     
+    198             3                     197040     
+    198             4                     197040     
+    199                                              
+    200             1                     197040        L_i_var[23]=data_i_var[4];L_i_var[22]=data_i_var[12];L_i_var[21]=data_i_var[20];L_i_var[20]=data_i_var[28];
+    200             2                     197040     
+    200             3                     197040     
+    200             4                     197040     
+    201             1                     197040        L_i_var[19]=data_i_var[36];L_i_var[18]=data_i_var[44];L_i_var[17]=data_i_var[52];L_i_var[16]=data_i_var[60];
+    201             2                     197040     
+    201             3                     197040     
+    201             4                     197040     
+    202                                              
+    203             1                     197040        L_i_var[15]=data_i_var[2];L_i_var[14]=data_i_var[10];L_i_var[13]=data_i_var[18];L_i_var[12]=data_i_var[26];
+    203             2                     197040     
+    203             3                     197040     
+    203             4                     197040     
+    204             1                     197040        L_i_var[11]=data_i_var[34];L_i_var[10]=data_i_var[42];L_i_var[9]=data_i_var[50];L_i_var[8]=data_i_var[58];
+    204             2                     197040     
+    204             3                     197040     
+    204             4                     197040     
+    205                                              
+    206             1                     197040        L_i_var[7]=data_i_var[0];L_i_var[6]=data_i_var[8];L_i_var[5]=data_i_var[16];L_i_var[4]=data_i_var[24];
+    206             2                     197040     
+    206             3                     197040     
+    206             4                     197040     
+    207             1                     197040        L_i_var[3]=data_i_var[32];L_i_var[2]=data_i_var[40];L_i_var[1]=data_i_var[48];L_i_var[0]=data_i_var[56];		   
+    207             2                     197040     
+    207             3                     197040     
+    207             4                     197040     
+    208                                              		   		   
+    209             1                     197040        R_i_var[31]=data_i_var[7];R_i_var[30]=data_i_var[15];R_i_var[29]=data_i_var[23];R_i_var[28]=data_i_var[31];
+    209             2                     197040     
+    209             3                     197040     
+    209             4                     197040     
+    210             1                     197040        R_i_var[27]=data_i_var[39];R_i_var[26]=data_i_var[47];R_i_var[25]=data_i_var[55];R_i_var[24]=data_i_var[63];
+    210             2                     197040     
+    210             3                     197040     
+    210             4                     197040     
+    211                                              
+    212             1                     197040        R_i_var[23]=data_i_var[5];R_i_var[22]=data_i_var[13];R_i_var[21]=data_i_var[21];R_i_var[20]=data_i_var[29];
+    212             2                     197040     
+    212             3                     197040     
+    212             4                     197040     
+    213             1                     197040        R_i_var[19]=data_i_var[37];R_i_var[18]=data_i_var[45];R_i_var[17]=data_i_var[53];R_i_var[16]=data_i_var[61];
+    213             2                     197040     
+    213             3                     197040     
+    213             4                     197040     
+    214                                              
+    215             1                     197040        R_i_var[15]=data_i_var[3];R_i_var[14]=data_i_var[11];R_i_var[13]=data_i_var[19];R_i_var[12]=data_i_var[27];
+    215             2                     197040     
+    215             3                     197040     
+    215             4                     197040     
+    216             1                     197040        R_i_var[11]=data_i_var[35];R_i_var[10]=data_i_var[43];R_i_var[9]=data_i_var[51];R_i_var[8]=data_i_var[59];
+    216             2                     197040     
+    216             3                     197040     
+    216             4                     197040     
+    217                                              
+    218             1                     197040        R_i_var[7]=data_i_var[1];R_i_var[6]=data_i_var[9];R_i_var[5]=data_i_var[17];R_i_var[4]=data_i_var[25];
+    218             2                     197040     
+    218             3                     197040     
+    218             4                     197040     
+    219             1                     197040        R_i_var[3]=data_i_var[33];R_i_var[2]=data_i_var[41];R_i_var[1]=data_i_var[49];R_i_var[0]=data_i_var[57];	
+    219             2                     197040     
+    219             3                     197040     
+    219             4                     197040     
+    220                                              
+    221                                              
+    222                                                 
+    223             1                     197040        data_o_var_t[63:32]=stage1_R_o;
+    224             1                     197040        data_o_var_t[31:0]=stage1_L_o;
+    225                                                 
+    226             1                     197040        data_o_var[63]=data_o_var_t[24];data_o_var[62]=data_o_var_t[56];data_o_var[61]=data_o_var_t[16];data_o_var[60]=data_o_var_t[48];
+    226             2                     197040     
+    226             3                     197040     
+    226             4                     197040     
+    227             1                     197040        data_o_var[59]=data_o_var_t[8];data_o_var[58]=data_o_var_t[40];data_o_var[57]=data_o_var_t[0];data_o_var[56]=data_o_var_t[32];   
+    227             2                     197040     
+    227             3                     197040     
+    227             4                     197040     
+    228                                                 
+    229             1                     197040        data_o_var[55]=data_o_var_t[25];data_o_var[54]=data_o_var_t[57];data_o_var[53]=data_o_var_t[17];data_o_var[52]=data_o_var_t[49];
+    229             2                     197040     
+    229             3                     197040     
+    229             4                     197040     
+    230             1                     197040        data_o_var[51]=data_o_var_t[9];data_o_var[50]=data_o_var_t[41];data_o_var[49]=data_o_var_t[1];data_o_var[48]=data_o_var_t[33];
+    230             2                     197040     
+    230             3                     197040     
+    230             4                     197040     
+    231                                                 
+    232             1                     197040        data_o_var[47]=data_o_var_t[26];data_o_var[46]=data_o_var_t[58];data_o_var[45]=data_o_var_t[18];data_o_var[44]=data_o_var_t[50];
+    232             2                     197040     
+    232             3                     197040     
+    232             4                     197040     
+    233             1                     197040        data_o_var[43]=data_o_var_t[10];data_o_var[42]=data_o_var_t[42];data_o_var[41]=data_o_var_t[2];data_o_var[40]=data_o_var_t[34];
+    233             2                     197040     
+    233             3                     197040     
+    233             4                     197040     
+    234                                                 
+    235             1                     197040        data_o_var[39]=data_o_var_t[27];data_o_var[38]=data_o_var_t[59];data_o_var[37]=data_o_var_t[19];data_o_var[36]=data_o_var_t[51];
+    235             2                     197040     
+    235             3                     197040     
+    235             4                     197040     
+    236             1                     197040        data_o_var[35]=data_o_var_t[11];data_o_var[34]=data_o_var_t[43];data_o_var[33]=data_o_var_t[3];data_o_var[32]=data_o_var_t[35];
+    236             2                     197040     
+    236             3                     197040     
+    236             4                     197040     
+    237                                                 
+    238             1                     197040        data_o_var[31]=data_o_var_t[28];data_o_var[30]=data_o_var_t[60];data_o_var[29]=data_o_var_t[20];data_o_var[28]=data_o_var_t[52];
+    238             2                     197040     
+    238             3                     197040     
+    238             4                     197040     
+    239             1                     197040        data_o_var[27]=data_o_var_t[12];data_o_var[26]=data_o_var_t[44];data_o_var[25]=data_o_var_t[4];data_o_var[24]=data_o_var_t[36];   
+    239             2                     197040     
+    239             3                     197040     
+    239             4                     197040     
+    240                                                 
+    241             1                     197040        data_o_var[23]=data_o_var_t[29];data_o_var[22]=data_o_var_t[61];data_o_var[21]=data_o_var_t[21];data_o_var[20]=data_o_var_t[53];
+    241             2                     197040     
+    241             3                     197040     
+    241             4                     197040     
+    242             1                     197040        data_o_var[19]=data_o_var_t[13];data_o_var[18]=data_o_var_t[45];data_o_var[17]=data_o_var_t[5];data_o_var[16]=data_o_var_t[37];
+    242             2                     197040     
+    242             3                     197040     
+    242             4                     197040     
+    243                                                 
+    244             1                     197040        data_o_var[15]=data_o_var_t[30];data_o_var[14]=data_o_var_t[62];data_o_var[13]=data_o_var_t[22];data_o_var[12]=data_o_var_t[54];
+    244             2                     197040     
+    244             3                     197040     
+    244             4                     197040     
+    245             1                     197040        data_o_var[11]=data_o_var_t[14];data_o_var[10]=data_o_var_t[46];data_o_var[9]=data_o_var_t[6];data_o_var[8]=data_o_var_t[38];
+    245             2                     197040     
+    245             3                     197040     
+    245             4                     197040     
+    246                                                 
+    247             1                     197040        data_o_var[7]=data_o_var_t[31];data_o_var[6]=data_o_var_t[63];data_o_var[5]=data_o_var_t[23];data_o_var[4]=data_o_var_t[55];
+    247             2                     197040     
+    247             3                     197040     
+    247             4                     197040     
+    248             1                     197040        data_o_var[3]=data_o_var_t[15];data_o_var[2]=data_o_var_t[47];data_o_var[1]=data_o_var_t[7];data_o_var[0]=data_o_var_t[39];
+    248             2                     197040     
+    248             3                     197040     
+    248             4                     197040     
+    249                                                 
+    250             1                     197040        next_data_o = (data_o_var);
+    251                                                 
+    252             1                     197040        stage1_iteration_i = (stage1_iter);
+    253                                              
+    254             1                     197040        next_ready_o = (0);	 	 
+    255             1                     197040        stage1_L_i = (stage1_L_o);
+    256             1                     197040        stage1_R_i = (stage1_R_o);
+    257             1                     197040        stage1_round_key_i = (stage1_round_key_o);
+    258                                                  
+    259                                                 case(stage1_iter)
+    260                                              	
+    261                                                	   0:
+    262                                              	   begin
+    263                                              	   if(load_i)
+    264                                              	   begin
+    265             1                       9852     	 	   next_stage1_iter = (1);
+    266             1                       9852     	       stage1_L_i = (L_i_var);
+    267             1                       9852     	       stage1_R_i = (R_i_var);
+    268             1                       9852     	       stage1_round_key_i = (key_var_perm);
+    269             1                       9852     		   next_data_ready = (0);
+    270                                              	   end
+    271                                              	   else if (!data_ready)
+    272                                              	   begin
+    273                                              
+    274             1                       9852     	       next_stage1_iter = (0);	
+    275             1                       9852     		   next_ready_o = (1);
+    276             1                       9852                next_data_ready = (1);			 
+    277                                              	   end
+    278                                                     end
+    279                                                     
+    280                                              	   15:
+    281             1                       9852          	 next_stage1_iter = (0);
+    282                                                     
+    283                                              	   default:	
+    284             1                     147780     	     next_stage1_iter = (stage1_iter+1);		 
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                       1680      1678         2    99.88%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.des
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                     L_i_var[0-31]           1           1      100.00 
+                                     R_i_var[0-31]           1           1      100.00 
+                                  data_i_var[0-63]           1           1      100.00 
+                                      data_o[0-63]           1           1      100.00 
+                                  data_o_var[0-63]           1           1      100.00 
+                                data_o_var_t[0-63]           1           1      100.00 
+                                        data_ready           1           1      100.00 
+                                   key_i_var[0-63]           1           1      100.00 
+                                key_var_perm[0-55]           1           1      100.00 
+                                 next_data_o[0-63]           1           1      100.00 
+                                   next_data_ready           1           1      100.00 
+                                      next_ready_o           1           1      100.00 
+                             next_stage1_iter[0-3]           1           1      100.00 
+                                           ready_o           0           0        0.00 
+                                   s1_stag1_i[0-5]           1           1      100.00 
+                                   s1_stag1_o[0-3]           1           1      100.00 
+                                   s2_stag1_i[0-5]           1           1      100.00 
+                                   s2_stag1_o[0-3]           1           1      100.00 
+                                   s3_stag1_i[0-5]           1           1      100.00 
+                                   s3_stag1_o[0-3]           1           1      100.00 
+                                   s4_stag1_i[0-5]           1           1      100.00 
+                                   s4_stag1_o[0-3]           1           1      100.00 
+                                   s5_stag1_i[0-5]           1           1      100.00 
+                                   s5_stag1_o[0-3]           1           1      100.00 
+                                   s6_stag1_i[0-5]           1           1      100.00 
+                                   s6_stag1_o[0-3]           1           1      100.00 
+                                   s7_stag1_i[0-5]           1           1      100.00 
+                                   s7_stag1_o[0-3]           1           1      100.00 
+                                   s8_stag1_i[0-5]           1           1      100.00 
+                                   s8_stag1_o[0-3]           1           1      100.00 
+                                  stage1_L_i[0-31]           1           1      100.00 
+                                  stage1_L_o[0-31]           1           1      100.00 
+                                  stage1_R_i[0-31]           1           1      100.00 
+                                  stage1_R_o[0-31]           1           1      100.00 
+                                  stage1_iter[0-3]           1           1      100.00 
+                           stage1_iteration_i[0-3]           1           1      100.00 
+                          stage1_round_key_i[0-55]           1           1      100.00 
+                          stage1_round_key_o[0-55]           1           1      100.00 
+
+Total Node Count     =        840 
+Toggled Node Count   =        839 
+Untoggled Node Count =          1 
+
+Toggle Coverage      =      99.88% (1678 of 1680 bins)
+
+=================================================================================
+=== Design Unit: work.desround
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                         2         2         0   100.00%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.desround
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File desround.v
+------------------------------------IF Branch------------------------------------
+    127                                   187188     Count coming in to IF
+    127             1                      19704     	if(!reset)
+    135             1                     167484         else
+Branch totals: 2 hits of 2 branches = 100.00%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                     112       112         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.desround --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File desround.v
+    50                                               module desround(clk,reset,iteration_i,decrypt_i,R_i,L_i,Key_i,R_o,L_o,Key_o,s1_o,s2_o,s3_o,s4_o,s5_o,s6_o,s7_o,s8_o,s1_i,s2_i,s3_i,s4_i,s5_i,s6_i,s7_i,s8_i);
+    51                                               
+    52                                               input clk;
+    53                                               input reset;
+    54                                               input [3:0] iteration_i;
+    55                                               input decrypt_i;
+    56                                               input [31:0] R_i;
+    57                                               input [31:0] L_i;
+    58                                               input [55:0] Key_i;
+    59                                               output [31:0] R_o;
+    60                                               output [31:0] L_o;
+    61                                               output [55:0] Key_o;
+    62                                               output [5:0] s1_o;
+    63                                               output [5:0] s2_o;
+    64                                               output [5:0] s3_o;
+    65                                               output [5:0] s4_o;
+    66                                               output [5:0] s5_o;
+    67                                               output [5:0] s6_o;
+    68                                               output [5:0] s7_o;
+    69                                               output [5:0] s8_o;
+    70                                               input [3:0] s1_i;
+    71                                               input [3:0] s2_i;
+    72                                               input [3:0] s3_i;
+    73                                               input [3:0] s4_i;
+    74                                               input [3:0] s5_i;
+    75                                               input [3:0] s6_i;
+    76                                               input [3:0] s7_i;
+    77                                               input [3:0] s8_i;
+    78                                               
+    79                                               reg [31:0] R_o;
+    80                                               reg [31:0] L_o;
+    81                                               reg [55:0] Key_o;
+    82                                               reg [5:0] s1_o;
+    83                                               reg [5:0] s2_o;
+    84                                               reg [5:0] s3_o;
+    85                                               reg [5:0] s4_o;
+    86                                               reg [5:0] s5_o;
+    87                                               reg [5:0] s6_o;
+    88                                               reg [5:0] s7_o;
+    89                                               reg [5:0] s8_o;
+    90                                               
+    91                                               
+    92                                               
+    93                                               reg  [55:0] previous_key;
+    94                                               
+    95                                               reg [3:0] iteration;
+    96                                               
+    97                                               reg decrypt;
+    98                                               
+    99                                               
+    100                                              
+    101                                              wire [55:0] non_perm_key;
+    102                                              
+    103                                              
+    104                                              
+    105                                              wire [47:0] new_key;
+    106                                              
+    107                                              reg [31:0] next_R;
+    108                                              
+    109                                              reg [31:0] expanRSig;
+    110                                              
+    111                                                reg[47:0]  expandedR;
+    112                                                reg[47:0]  round_key;
+    113                                                reg[47:0]  KER;
+    114                                                reg[31:0]  R_i_var;
+    115                                              	
+    116                                                reg[31:0]  Soutput;
+    117                                                reg[31:0]  f;	
+    118                                              
+    119                                              
+    120                                              key_gen kg1 (.previous_key(previous_key), .iteration(iteration), .decrypt(decrypt), .new_key(new_key), .non_perm_key(non_perm_key));
+    121                                              
+    122             1                     187188     always @(posedge clk or negedge reset)
+    123                                              
+    124                                              begin
+    125                                              
+    126                                              	
+    127                                              	if(!reset)
+    128                                                  begin
+    129                                              
+    130             1                      19704     		L_o = (0);
+    131             1                      19704     		R_o = (0);
+    132             1                      19704     		Key_o = (0);
+    133                                              	
+    134                                                  end
+    135                                                  else
+    136                                                  begin
+    137                                              
+    138             1                     167484             L_o = (R_i);
+    139             1                     167484     		R_o = (next_R);
+    140             1                     167484     	    Key_o = (non_perm_key);
+    141                                              	
+    142                                                  end
+    143                                              
+    144                                              end
+    145                                              
+    146             1                     521236     always @(  R_i or   L_i or   Key_i or   iteration_i or   decrypt_i or   new_key or   s1_i or   s2_i or   s3_i or   s4_i or   s5_i or   s6_i or   s7_i or   s8_i)
+    147                                              
+    148                                              begin
+    149                                              
+    150             1                     521236       R_i_var=R_i;	
+    151                                              	
+    152                                              
+    153             1                     521236       expandedR[47]=R_i_var[0]; expandedR[46]=R_i_var[31]; expandedR[45]=R_i_var[30]; expandedR[44]=R_i_var[29];
+    153             2                     521236     
+    153             3                     521236     
+    153             4                     521236     
+    154             1                     521236       expandedR[43]=R_i_var[28]; expandedR[42]=R_i_var[27]; expandedR[41]=R_i_var[28]; expandedR[40]=R_i_var[27];
+    154             2                     521236     
+    154             3                     521236     
+    154             4                     521236     
+    155                                              	
+    156             1                     521236       expandedR[39]=R_i_var[26]; expandedR[38]=R_i_var[25]; expandedR[37]=R_i_var[24]; expandedR[36]=R_i_var[23];
+    156             2                     521236     
+    156             3                     521236     
+    156             4                     521236     
+    157             1                     521236       expandedR[35]=R_i_var[24]; expandedR[34]=R_i_var[23]; expandedR[33]=R_i_var[22]; expandedR[32]=R_i_var[21];
+    157             2                     521236     
+    157             3                     521236     
+    157             4                     521236     
+    158                                                
+    159             1                     521236       expandedR[31]=R_i_var[20]; expandedR[30]=R_i_var[19]; expandedR[29]=R_i_var[20]; expandedR[28]=R_i_var[19];
+    159             2                     521236     
+    159             3                     521236     
+    159             4                     521236     
+    160             1                     521236       expandedR[27]=R_i_var[18]; expandedR[26]=R_i_var[17]; expandedR[25]=R_i_var[16]; expandedR[24]=R_i_var[15];
+    160             2                     521236     
+    160             3                     521236     
+    160             4                     521236     
+    161                                              	
+    162             1                     521236       expandedR[23]=R_i_var[16]; expandedR[22]=R_i_var[15]; expandedR[21]=R_i_var[14]; expandedR[20]=R_i_var[13];
+    162             2                     521236     
+    162             3                     521236     
+    162             4                     521236     
+    163             1                     521236       expandedR[19]=R_i_var[12]; expandedR[18]=R_i_var[11]; expandedR[17]=R_i_var[12]; expandedR[16]=R_i_var[11]; 
+    163             2                     521236     
+    163             3                     521236     
+    163             4                     521236     
+    164                                              
+    165             1                     521236       expandedR[15]=R_i_var[10]; expandedR[14]=R_i_var[9]; expandedR[13]=R_i_var[8]; expandedR[12]=R_i_var[7]; 
+    165             2                     521236     
+    165             3                     521236     
+    165             4                     521236     
+    166             1                     521236       expandedR[11]=R_i_var[8]; expandedR[10]=R_i_var[7]; expandedR[9]=R_i_var[6]; expandedR[8]=R_i_var[5]; 
+    166             2                     521236     
+    166             3                     521236     
+    166             4                     521236     
+    167                                              	
+    168             1                     521236       expandedR[7]=R_i_var[4]; expandedR[6]=R_i_var[3]; expandedR[5]=R_i_var[4]; expandedR[4]=R_i_var[3]; 
+    168             2                     521236     
+    168             3                     521236     
+    168             4                     521236     
+    169             1                     521236       expandedR[3]=R_i_var[2]; expandedR[2]=R_i_var[1]; expandedR[1]=R_i_var[0]; expandedR[0]=R_i_var[31]; 
+    169             2                     521236     
+    169             3                     521236     
+    169             4                     521236     
+    170                                              	  
+    171                                                
+    172             1                     521236       previous_key = (Key_i);
+    173             1                     521236       iteration = (iteration_i);
+    174             1                     521236       decrypt = (decrypt_i);
+    175                                                
+    176             1                     521236       round_key=new_key;
+    177                                                
+    178             1                     521236       KER=expandedR^round_key;
+    179                                                  
+    180                                                
+    181             1                     521236       s1_o = (KER[47:42]);
+    182             1                     521236       s2_o = (KER[41:36]);
+    183             1                     521236       s3_o = (KER[35:30]);
+    184             1                     521236       s4_o = (KER[29:24]);
+    185             1                     521236       s5_o = (KER[23:18]);
+    186             1                     521236       s6_o = (KER[17:12]);
+    187             1                     521236       s7_o = (KER[11:6]);
+    188             1                     521236       s8_o = (KER[5:0]);
+    189                                              
+    190             1                     521236       Soutput[31:28]=s1_i;
+    191             1                     521236       Soutput[27:24]=s2_i;
+    192             1                     521236       Soutput[23:20]=s3_i;
+    193             1                     521236       Soutput[19:16]=s4_i;
+    194             1                     521236       Soutput[15:12]=s5_i;
+    195             1                     521236       Soutput[11:8]=s6_i;
+    196             1                     521236       Soutput[7:4]=s7_i;
+    197             1                     521236       Soutput[3:0]=s8_i;
+    198                                                    
+    199                                              
+    200                                                
+    201             1                     521236       f[31]=Soutput[16]; f[30]=Soutput[25]; f[29]=Soutput[12]; f[28]=Soutput[11]; 
+    201             2                     521236     
+    201             3                     521236     
+    201             4                     521236     
+    202             1                     521236       f[27]=Soutput[3]; f[26]=Soutput[20]; f[25]=Soutput[4]; f[24]=Soutput[15]; 
+    202             2                     521236     
+    202             3                     521236     
+    202             4                     521236     
+    203                                                
+    204             1                     521236       f[23]=Soutput[31]; f[22]=Soutput[17]; f[21]=Soutput[9]; f[20]=Soutput[6]; 
+    204             2                     521236     
+    204             3                     521236     
+    204             4                     521236     
+    205             1                     521236       f[19]=Soutput[27]; f[18]=Soutput[14]; f[17]=Soutput[1]; f[16]=Soutput[22]; 
+    205             2                     521236     
+    205             3                     521236     
+    205             4                     521236     
+    206                                                
+    207             1                     521236       f[15]=Soutput[30]; f[14]=Soutput[24]; f[13]=Soutput[8]; f[12]=Soutput[18]; 
+    207             2                     521236     
+    207             3                     521236     
+    207             4                     521236     
+    208             1                     521236       f[11]=Soutput[0]; f[10]=Soutput[5]; f[9]=Soutput[29]; f[8]=Soutput[23]; 
+    208             2                     521236     
+    208             3                     521236     
+    208             4                     521236     
+    209                                                
+    210             1                     521236       f[7]=Soutput[13]; f[6]=Soutput[19]; f[5]=Soutput[2]; f[4]=Soutput[26]; 
+    210             2                     521236     
+    210             3                     521236     
+    210             4                     521236     
+    211             1                     521236       f[3]=Soutput[10]; f[2]=Soutput[21]; f[1]=Soutput[28]; f[0]=Soutput[7]; 
+    211             2                     521236     
+    211             3                     521236     
+    211             4                     521236     
+    212                                                
+    213             1                     521236       next_R = (L_i^f);
+    214                                                
+    215             1                     521236       expanRSig = (L_i^f);
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                       1274      1274         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.desround
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                         KER[0-47]           1           1      100.00 
+                                       Key_o[0-55]           1           1      100.00 
+                                         L_o[0-31]           1           1      100.00 
+                                     R_i_var[0-31]           1           1      100.00 
+                                         R_o[0-31]           1           1      100.00 
+                                     Soutput[0-31]           1           1      100.00 
+                                           decrypt           1           1      100.00 
+                                   expanRSig[0-31]           1           1      100.00 
+                                   expandedR[0-47]           1           1      100.00 
+                                           f[0-31]           1           1      100.00 
+                                    iteration[0-3]           1           1      100.00 
+                                     new_key[0-47]           1           1      100.00 
+                                      next_R[0-31]           1           1      100.00 
+                                non_perm_key[0-55]           1           1      100.00 
+                                previous_key[0-55]           1           1      100.00 
+                                   round_key[0-47]           1           1      100.00 
+                                         s1_o[0-5]           1           1      100.00 
+                                         s2_o[0-5]           1           1      100.00 
+                                         s3_o[0-5]           1           1      100.00 
+                                         s4_o[0-5]           1           1      100.00 
+                                         s5_o[0-5]           1           1      100.00 
+                                         s6_o[0-5]           1           1      100.00 
+                                         s7_o[0-5]           1           1      100.00 
+                                         s8_o[0-5]           1           1      100.00 
+
+Total Node Count     =        637 
+Toggled Node Count   =        637 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (1274 of 1274 bins)
+
+=================================================================================
+=== Design Unit: work.key_gen
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        12        12         0   100.00%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.key_gen
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File key_gen.v
+------------------------------------IF Branch------------------------------------
+    80                                    179354     Count coming in to IF
+    80              1                      92381     	if(!decrypt)
+    117             1                      86973         else
+Branch totals: 2 hits of 2 branches = 100.00%
+
+------------------------------------CASE Branch------------------------------------
+    82                                     92381     Count coming in to CASE
+    84              1                      17891     		  0, 1, 8, 15:
+    84              2                       4966     
+    84              3                       4966     
+    84              4                       4966     
+    97              1                      59592     		  default:    
+Branch totals: 5 hits of 5 branches = 100.00%
+
+------------------------------------CASE Branch------------------------------------
+    119                                    86973     Count coming in to CASE
+    121             1                      13683     		  0:
+    128             1                       4886     		  1, 8, 15:
+    128             2                       4886     
+    128             3                       4886     
+    141             1                      58632     		  default:    
+Branch totals: 5 hits of 5 branches = 100.00%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                     108       108         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.key_gen --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File key_gen.v
+    50                                               module key_gen(previous_key,iteration,decrypt,non_perm_key,new_key);
+    51                                               
+    52                                               input [55:0] previous_key;
+    53                                               input [3:0] iteration;
+    54                                               input decrypt;
+    55                                               output [55:0] non_perm_key;
+    56                                               output [47:0] new_key;
+    57                                               
+    58                                               reg [55:0] non_perm_key;
+    59                                               reg [47:0] new_key;
+    60                                               
+    61                                               
+    62                                               reg  prev0,prev1;
+    63                                               reg[55:0]  prev_key_var,non_perm_key_var;
+    64                                               reg[47:0]  new_key_var;
+    65                                               reg[27:0]  semi_key;
+    66                                               
+    67                                               
+    68              1                     179354     always @(  previous_key or   iteration or   decrypt)
+    69                                               
+    70                                               begin
+    71                                               
+    72                                               
+    73                                               	
+    74              1                     179354     	prev_key_var=previous_key;
+    75              1                     179354     	new_key_var=0;
+    76              1                     179354     	new_key = (0);
+    77              1                     179354     	non_perm_key_var=0;
+    78              1                     179354     	non_perm_key = (0);
+    79                                               	
+    80                                               	if(!decrypt)
+    81                                                     begin
+    82                                               	  case(iteration)
+    83                                               
+    84                                               		  0, 1, 8, 15:
+    85                                               			begin
+    86              1                      32789     		      semi_key=prev_key_var[55:28];
+    87              1                      32789     		      prev0=semi_key[27];
+    88              1                      32789     		      semi_key=semi_key<<1;
+    89              1                      32789     		      semi_key[0]=prev0;
+    90              1                      32789     		      non_perm_key_var[55:28]=semi_key;
+    91              1                      32789     		      semi_key=prev_key_var[27:0];
+    92              1                      32789     		      prev0=semi_key[27];
+    93              1                      32789     		      semi_key=semi_key<<1;
+    94              1                      32789     		      semi_key[0]=prev0;
+    95              1                      32789     		      non_perm_key_var[27:0]=semi_key;
+    96                                               		     end
+    97                                               		  default:    
+    98                                               			begin
+    99              1                      59592     		      semi_key=prev_key_var[55:28];
+    100             1                      59592     		      prev0=semi_key[27];
+    101             1                      59592     		      prev1=semi_key[26];
+    102             1                      59592     		      semi_key=semi_key<<2;
+    103             1                      59592     		      semi_key[1]=prev0;
+    104             1                      59592     		      semi_key[0]=prev1;
+    105             1                      59592     		      non_perm_key_var[55:28]=semi_key;
+    106             1                      59592     		      semi_key=prev_key_var[27:0];
+    107             1                      59592     		      prev0=semi_key[27];
+    108             1                      59592     		      prev1=semi_key[26];
+    109             1                      59592     		      semi_key=semi_key<<2;
+    110             1                      59592     		      semi_key[1]=prev0;
+    111             1                      59592     		      semi_key[0]=prev1;
+    112             1                      59592     		      non_perm_key_var[27:0]=semi_key;
+    113                                              			end
+    114                                                    
+    115                                                    endcase
+    116                                              	  end
+    117                                                  else
+    118                                                  begin
+    119                                              	  case(iteration)
+    120                                              
+    121                                              		  0:
+    122                                              		  begin
+    123             1                      13683     			  semi_key=prev_key_var[55:28];
+    124             1                      13683     		      non_perm_key_var[55:28]=semi_key;
+    125             1                      13683     		      semi_key=prev_key_var[27:0];
+    126             1                      13683                   non_perm_key_var[27:0]=semi_key;
+    127                                              		  end
+    128                                              		  1, 8, 15:
+    129                                              		  begin
+    130             1                      14658     		      semi_key=prev_key_var[55:28];
+    131             1                      14658     		      prev0=semi_key[0];
+    132             1                      14658     		      semi_key=semi_key>>1;
+    133             1                      14658     		      semi_key[27]=prev0;
+    134             1                      14658     		      non_perm_key_var[55:28]=semi_key;
+    135             1                      14658     		      semi_key=prev_key_var[27:0];
+    136             1                      14658     		      prev0=semi_key[0];
+    137             1                      14658     		      semi_key=semi_key>>1;
+    138             1                      14658     		      semi_key[27]=prev0;
+    139             1                      14658     		      non_perm_key_var[27:0]=semi_key;
+    140                                              		  end
+    141                                              		  default:    
+    142                                              			begin
+    143             1                      58632     		      semi_key=prev_key_var[55:28];
+    144             1                      58632     		      prev0=semi_key[0];
+    145             1                      58632     		      prev1=semi_key[1];
+    146             1                      58632     		      semi_key=semi_key>>2;
+    147             1                      58632     		      semi_key[26]=prev0;
+    148             1                      58632     		      semi_key[27]=prev1;
+    149             1                      58632     		      non_perm_key_var[55:28]=semi_key;
+    150             1                      58632     		      semi_key=prev_key_var[27:0];
+    151             1                      58632     		      prev0=semi_key[0];
+    152             1                      58632     		      prev1=semi_key[1];
+    153             1                      58632     		      semi_key=semi_key>>2;
+    154             1                      58632     		      semi_key[26]=prev0;
+    155             1                      58632     		      semi_key[27]=prev1;
+    156             1                      58632     		      non_perm_key_var[27:0]=semi_key;
+    157                                              		  end
+    158                                              	 
+    159                                                    endcase
+    160                                              	end
+    161                                              
+    162                                                 
+    163             1                     179354        non_perm_key = (non_perm_key_var);
+    164                                                    
+    165                                              
+    166             1                     179354        new_key_var[47]=non_perm_key_var[42]; new_key_var[46]=non_perm_key_var[39]; new_key_var[45]=non_perm_key_var[45]; new_key_var[44]=non_perm_key_var[32];
+    166             2                     179354     
+    166             3                     179354     
+    166             4                     179354     
+    167             1                     179354        new_key_var[43]=non_perm_key_var[55]; new_key_var[42]=non_perm_key_var[51]; new_key_var[41]=non_perm_key_var[53]; new_key_var[40]=non_perm_key_var[28];
+    167             2                     179354     
+    167             3                     179354     
+    167             4                     179354     
+    168                                              	
+    169             1                     179354        new_key_var[39]=non_perm_key_var[41]; new_key_var[38]=non_perm_key_var[50]; new_key_var[37]=non_perm_key_var[35]; new_key_var[36]=non_perm_key_var[46];
+    169             2                     179354     
+    169             3                     179354     
+    169             4                     179354     
+    170             1                     179354        new_key_var[35]=non_perm_key_var[33]; new_key_var[34]=non_perm_key_var[37]; new_key_var[33]=non_perm_key_var[44]; new_key_var[32]=non_perm_key_var[52];
+    170             2                     179354     
+    170             3                     179354     
+    170             4                     179354     
+    171                                                
+    172             1                     179354        new_key_var[31]=non_perm_key_var[30]; new_key_var[30]=non_perm_key_var[48]; new_key_var[29]=non_perm_key_var[40]; new_key_var[28]=non_perm_key_var[49];
+    172             2                     179354     
+    172             3                     179354     
+    172             4                     179354     
+    173             1                     179354        new_key_var[27]=non_perm_key_var[29]; new_key_var[26]=non_perm_key_var[36]; new_key_var[25]=non_perm_key_var[43]; new_key_var[24]=non_perm_key_var[54];
+    173             2                     179354     
+    173             3                     179354     
+    173             4                     179354     
+    174                                              	
+    175             1                     179354        new_key_var[23]=non_perm_key_var[15]; new_key_var[22]=non_perm_key_var[4]; new_key_var[21]=non_perm_key_var[25]; new_key_var[20]=non_perm_key_var[19];
+    175             2                     179354     
+    175             3                     179354     
+    175             4                     179354     
+    176             1                     179354        new_key_var[19]=non_perm_key_var[9]; new_key_var[18]=non_perm_key_var[1]; new_key_var[17]=non_perm_key_var[26]; new_key_var[16]=non_perm_key_var[16]; 
+    176             2                     179354     
+    176             3                     179354     
+    176             4                     179354     
+    177                                              
+    178             1                     179354        new_key_var[15]=non_perm_key_var[5]; new_key_var[14]=non_perm_key_var[11]; new_key_var[13]=non_perm_key_var[23]; new_key_var[12]=non_perm_key_var[8]; 
+    178             2                     179354     
+    178             3                     179354     
+    178             4                     179354     
+    179             1                     179354        new_key_var[11]=non_perm_key_var[12]; new_key_var[10]=non_perm_key_var[7]; new_key_var[9]=non_perm_key_var[17]; new_key_var[8]=non_perm_key_var[0]; 
+    179             2                     179354     
+    179             3                     179354     
+    179             4                     179354     
+    180                                              	
+    181             1                     179354        new_key_var[7]=non_perm_key_var[22]; new_key_var[6]=non_perm_key_var[3]; new_key_var[5]=non_perm_key_var[10]; new_key_var[4]=non_perm_key_var[14]; 
+    181             2                     179354     
+    181             3                     179354     
+    181             4                     179354     
+    182             1                     179354        new_key_var[3]=non_perm_key_var[6]; new_key_var[2]=non_perm_key_var[20]; new_key_var[1]=non_perm_key_var[27]; new_key_var[0]=non_perm_key_var[24]; 
+    182             2                     179354     
+    182             3                     179354     
+    182             4                     179354     
+    183                                              
+    184             1                     179354        new_key = (new_key_var);
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                        588       588         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.key_gen
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                     new_key[0-47]           1           1      100.00 
+                                 new_key_var[0-47]           1           1      100.00 
+                                non_perm_key[0-55]           1           1      100.00 
+                            non_perm_key_var[0-55]           1           1      100.00 
+                                             prev0           1           1      100.00 
+                                             prev1           1           1      100.00 
+                                prev_key_var[0-55]           1           1      100.00 
+                                    semi_key[0-27]           1           1      100.00 
+
+Total Node Count     =        294 
+Toggled Node Count   =        294 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (588 of 588 bins)
+
+=================================================================================
+=== Design Unit: work.s1
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        65        64         1    98.46%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.s1
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s1.v
+------------------------------------CASE Branch------------------------------------
+    63                                    314948     Count coming in to CASE
+    64              1                      14817     	    0: stage1_output = (14); 
+    65              1                       4762             1: stage1_output = (0); 
+    66              1                       4861             2: stage1_output = (4); 
+    67              1                       4967             3: stage1_output = (15); 
+    68              1                       5224             4: stage1_output = (13); 
+    69              1                       4609             5: stage1_output = (7); 
+    70              1                       4672             6: stage1_output = (1); 
+    71              1                       4532             7: stage1_output = (4); 
+    72              1                       5045             8: stage1_output = (2); 
+    73              1                       4642             9: stage1_output = (14); 
+    74              1                       4778             10: stage1_output = (15); 
+    75              1                       4764             11: stage1_output = (2); 
+    76              1                       4717             12: stage1_output = (11); 
+    77              1                       4638             13: stage1_output = (13); 
+    78              1                       4633             14: stage1_output = (8); 
+    79              1                       4580             15: stage1_output = (1); 
+    80              1                       5195             16: stage1_output = (3); 
+    81              1                       4981             17: stage1_output = (10); 
+    82              1                       4984             18: stage1_output = (10); 
+    83              1                       4665             19: stage1_output = (6); 
+    84              1                       4808             20: stage1_output = (6); 
+    85              1                       4728             21: stage1_output = (12); 
+    86              1                       4687             22: stage1_output = (12); 
+    87              1                       4847             23: stage1_output = (11); 
+    88              1                       4930             24: stage1_output = (5); 
+    89              1                       4681             25: stage1_output = (9); 
+    90              1                       4864             26: stage1_output = (9); 
+    91              1                       5091             27: stage1_output = (5); 
+    92              1                       4618             28: stage1_output = (0); 
+    93              1                       4634             29: stage1_output = (3); 
+    94              1                       4824             30: stage1_output = (7); 
+    95              1                       5072             31: stage1_output = (8); 
+    96              1                       4613             32: stage1_output = (4); 
+    97              1                       4697             33: stage1_output = (15); 
+    98              1                       4528             34: stage1_output = (1); 
+    99              1                       4600             35: stage1_output = (12); 
+    100             1                       4608             36: stage1_output = (14); 
+    101             1                       4527             37: stage1_output = (8); 
+    102             1                       4618             38: stage1_output = (8); 
+    103             1                       4701             39: stage1_output = (2); 
+    104             1                       4481             40: stage1_output = (13); 
+    105             1                       4553             41: stage1_output = (4); 
+    106             1                       4484             42: stage1_output = (6); 
+    107             1                       4712             43: stage1_output = (9); 
+    108             1                       4451             44: stage1_output = (2); 
+    109             1                       4400             45: stage1_output = (1); 
+    110             1                       4563             46: stage1_output = (11); 
+    111             1                       4867             47: stage1_output = (7); 
+    112             1                       4896             48: stage1_output = (15); 
+    113             1                       4516             49: stage1_output = (5); 
+    114             1                       4528             50: stage1_output = (12); 
+    115             1                       4579             51: stage1_output = (11); 
+    116             1                       4647             52: stage1_output = (9); 
+    117             1                       4569             53: stage1_output = (3); 
+    118             1                       4714             54: stage1_output = (7); 
+    119             1                       4778             55: stage1_output = (14); 
+    120             1                       4643             56: stage1_output = (3); 
+    121             1                       4619             57: stage1_output = (10); 
+    122             1                       4676             58: stage1_output = (10); 
+    123             1                       4660             59: stage1_output = (0); 
+    124             1                       4715             60: stage1_output = (5); 
+    125             1                       4759             61: stage1_output = (6); 
+    126             1                       4778             62: stage1_output = (0); 
+    127             1                       7618             63: stage1_output = (13); 
+                                         ***0***     All False Count
+Branch totals: 64 hits of 65 branches = 98.46%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      65        65         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.s1 --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s1.v
+    50                                               module s1(stage1_input,stage1_output);
+    51                                               input [5:0] stage1_input;
+    52                                               output [3:0] stage1_output;
+    53                                               
+    54                                               reg [3:0] stage1_output;
+    55                                               
+    56                                               
+    57                                               
+    58              1                     314948     always @(  stage1_input)
+    59                                               
+    60                                               begin
+    61                                               
+    62                                               	
+    63                                                  case(stage1_input)
+    64              1                      14817     	    0: stage1_output = (14); 
+    65              1                       4762             1: stage1_output = (0); 
+    66              1                       4861             2: stage1_output = (4); 
+    67              1                       4967             3: stage1_output = (15); 
+    68              1                       5224             4: stage1_output = (13); 
+    69              1                       4609             5: stage1_output = (7); 
+    70              1                       4672             6: stage1_output = (1); 
+    71              1                       4532             7: stage1_output = (4); 
+    72              1                       5045             8: stage1_output = (2); 
+    73              1                       4642             9: stage1_output = (14); 
+    74              1                       4778             10: stage1_output = (15); 
+    75              1                       4764             11: stage1_output = (2); 
+    76              1                       4717             12: stage1_output = (11); 
+    77              1                       4638             13: stage1_output = (13); 
+    78              1                       4633             14: stage1_output = (8); 
+    79              1                       4580             15: stage1_output = (1); 
+    80              1                       5195             16: stage1_output = (3); 
+    81              1                       4981             17: stage1_output = (10); 
+    82              1                       4984             18: stage1_output = (10); 
+    83              1                       4665             19: stage1_output = (6); 
+    84              1                       4808             20: stage1_output = (6); 
+    85              1                       4728             21: stage1_output = (12); 
+    86              1                       4687             22: stage1_output = (12); 
+    87              1                       4847             23: stage1_output = (11); 
+    88              1                       4930             24: stage1_output = (5); 
+    89              1                       4681             25: stage1_output = (9); 
+    90              1                       4864             26: stage1_output = (9); 
+    91              1                       5091             27: stage1_output = (5); 
+    92              1                       4618             28: stage1_output = (0); 
+    93              1                       4634             29: stage1_output = (3); 
+    94              1                       4824             30: stage1_output = (7); 
+    95              1                       5072             31: stage1_output = (8); 
+    96              1                       4613             32: stage1_output = (4); 
+    97              1                       4697             33: stage1_output = (15); 
+    98              1                       4528             34: stage1_output = (1); 
+    99              1                       4600             35: stage1_output = (12); 
+    100             1                       4608             36: stage1_output = (14); 
+    101             1                       4527             37: stage1_output = (8); 
+    102             1                       4618             38: stage1_output = (8); 
+    103             1                       4701             39: stage1_output = (2); 
+    104             1                       4481             40: stage1_output = (13); 
+    105             1                       4553             41: stage1_output = (4); 
+    106             1                       4484             42: stage1_output = (6); 
+    107             1                       4712             43: stage1_output = (9); 
+    108             1                       4451             44: stage1_output = (2); 
+    109             1                       4400             45: stage1_output = (1); 
+    110             1                       4563             46: stage1_output = (11); 
+    111             1                       4867             47: stage1_output = (7); 
+    112             1                       4896             48: stage1_output = (15); 
+    113             1                       4516             49: stage1_output = (5); 
+    114             1                       4528             50: stage1_output = (12); 
+    115             1                       4579             51: stage1_output = (11); 
+    116             1                       4647             52: stage1_output = (9); 
+    117             1                       4569             53: stage1_output = (3); 
+    118             1                       4714             54: stage1_output = (7); 
+    119             1                       4778             55: stage1_output = (14); 
+    120             1                       4643             56: stage1_output = (3); 
+    121             1                       4619             57: stage1_output = (10); 
+    122             1                       4676             58: stage1_output = (10); 
+    123             1                       4660             59: stage1_output = (0); 
+    124             1                       4715             60: stage1_output = (5); 
+    125             1                       4759             61: stage1_output = (6); 
+    126             1                       4778             62: stage1_output = (0); 
+    127             1                       7618             63: stage1_output = (13); 
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                          8         8         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.s1
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                stage1_output[0-3]           1           1      100.00 
+
+Total Node Count     =          4 
+Toggled Node Count   =          4 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (8 of 8 bins)
+
+=================================================================================
+=== Design Unit: work.s2
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        65        64         1    98.46%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.s2
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s2.v
+------------------------------------CASE Branch------------------------------------
+    63                                    314366     Count coming in to CASE
+    64              1                      14732             0: stage1_output = (15); 
+    65              1                       5337             1: stage1_output = (3); 
+    66              1                       4634             2: stage1_output = (1); 
+    67              1                       4581             3: stage1_output = (13); 
+    68              1                       4801             4: stage1_output = (8); 
+    69              1                       4681             5: stage1_output = (4); 
+    70              1                       4620             6: stage1_output = (14); 
+    71              1                       4625             7: stage1_output = (7); 
+    72              1                       4741             8: stage1_output = (6); 
+    73              1                       4608             9: stage1_output = (15); 
+    74              1                       4686             10: stage1_output = (11); 
+    75              1                       4879             11: stage1_output = (2); 
+    76              1                       4645             12: stage1_output = (3); 
+    77              1                       4640             13: stage1_output = (8); 
+    78              1                       4963             14: stage1_output = (4); 
+    79              1                       4639             15: stage1_output = (14); 
+    80              1                       5387             16: stage1_output = (9); 
+    81              1                       4777             17: stage1_output = (12); 
+    82              1                       4490             18: stage1_output = (7); 
+    83              1                       4537             19: stage1_output = (0); 
+    84              1                       4614             20: stage1_output = (2); 
+    85              1                       4548             21: stage1_output = (1); 
+    86              1                       4683             22: stage1_output = (13); 
+    87              1                       4678             23: stage1_output = (10); 
+    88              1                       4686             24: stage1_output = (12); 
+    89              1                       4543             25: stage1_output = (6); 
+    90              1                       4510             26: stage1_output = (0); 
+    91              1                       4574             27: stage1_output = (9); 
+    92              1                       4471             28: stage1_output = (5); 
+    93              1                       4717             29: stage1_output = (11); 
+    94              1                       4561             30: stage1_output = (10); 
+    95              1                       4692             31: stage1_output = (5); 
+    96              1                       4877             32: stage1_output = (0); 
+    97              1                       4577             33: stage1_output = (13); 
+    98              1                       4627             34: stage1_output = (14); 
+    99              1                       4518             35: stage1_output = (8); 
+    100             1                       4812             36: stage1_output = (7); 
+    101             1                       4672             37: stage1_output = (10); 
+    102             1                       4647             38: stage1_output = (11); 
+    103             1                       4727             39: stage1_output = (1); 
+    104             1                       4656             40: stage1_output = (10); 
+    105             1                       4544             41: stage1_output = (3); 
+    106             1                       4632             42: stage1_output = (4); 
+    107             1                       4654             43: stage1_output = (15); 
+    108             1                       4761             44: stage1_output = (13); 
+    109             1                       4815             45: stage1_output = (4); 
+    110             1                       4638             46: stage1_output = (1); 
+    111             1                       4695             47: stage1_output = (2); 
+    112             1                       4688             48: stage1_output = (5); 
+    113             1                       4998             49: stage1_output = (11); 
+    114             1                       4668             50: stage1_output = (8); 
+    115             1                       4747             51: stage1_output = (6); 
+    116             1                       4814             52: stage1_output = (12); 
+    117             1                       4589             53: stage1_output = (7); 
+    118             1                       4541             54: stage1_output = (6); 
+    119             1                       5347             55: stage1_output = (12); 
+    120             1                       4741             56: stage1_output = (9); 
+    121             1                       4688             57: stage1_output = (0); 
+    122             1                       4685             58: stage1_output = (3); 
+    123             1                       4867             59: stage1_output = (5); 
+    124             1                       4778             60: stage1_output = (2); 
+    125             1                       4735             61: stage1_output = (14); 
+    126             1                       4729             62: stage1_output = (15); 
+    127             1                       7619             63: stage1_output = (9); 
+                                         ***0***     All False Count
+Branch totals: 64 hits of 65 branches = 98.46%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      65        65         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.s2 --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s2.v
+    50                                               module s2(stage1_input,stage1_output);
+    51                                               input [5:0] stage1_input;
+    52                                               output [3:0] stage1_output;
+    53                                               
+    54                                               reg [3:0] stage1_output;
+    55                                               
+    56                                               
+    57                                               
+    58              1                     314366     always @(  stage1_input)
+    59                                               
+    60                                               begin
+    61                                               
+    62                                               
+    63                                                  case(stage1_input)
+    64              1                      14732             0: stage1_output = (15); 
+    65              1                       5337             1: stage1_output = (3); 
+    66              1                       4634             2: stage1_output = (1); 
+    67              1                       4581             3: stage1_output = (13); 
+    68              1                       4801             4: stage1_output = (8); 
+    69              1                       4681             5: stage1_output = (4); 
+    70              1                       4620             6: stage1_output = (14); 
+    71              1                       4625             7: stage1_output = (7); 
+    72              1                       4741             8: stage1_output = (6); 
+    73              1                       4608             9: stage1_output = (15); 
+    74              1                       4686             10: stage1_output = (11); 
+    75              1                       4879             11: stage1_output = (2); 
+    76              1                       4645             12: stage1_output = (3); 
+    77              1                       4640             13: stage1_output = (8); 
+    78              1                       4963             14: stage1_output = (4); 
+    79              1                       4639             15: stage1_output = (14); 
+    80              1                       5387             16: stage1_output = (9); 
+    81              1                       4777             17: stage1_output = (12); 
+    82              1                       4490             18: stage1_output = (7); 
+    83              1                       4537             19: stage1_output = (0); 
+    84              1                       4614             20: stage1_output = (2); 
+    85              1                       4548             21: stage1_output = (1); 
+    86              1                       4683             22: stage1_output = (13); 
+    87              1                       4678             23: stage1_output = (10); 
+    88              1                       4686             24: stage1_output = (12); 
+    89              1                       4543             25: stage1_output = (6); 
+    90              1                       4510             26: stage1_output = (0); 
+    91              1                       4574             27: stage1_output = (9); 
+    92              1                       4471             28: stage1_output = (5); 
+    93              1                       4717             29: stage1_output = (11); 
+    94              1                       4561             30: stage1_output = (10); 
+    95              1                       4692             31: stage1_output = (5); 
+    96              1                       4877             32: stage1_output = (0); 
+    97              1                       4577             33: stage1_output = (13); 
+    98              1                       4627             34: stage1_output = (14); 
+    99              1                       4518             35: stage1_output = (8); 
+    100             1                       4812             36: stage1_output = (7); 
+    101             1                       4672             37: stage1_output = (10); 
+    102             1                       4647             38: stage1_output = (11); 
+    103             1                       4727             39: stage1_output = (1); 
+    104             1                       4656             40: stage1_output = (10); 
+    105             1                       4544             41: stage1_output = (3); 
+    106             1                       4632             42: stage1_output = (4); 
+    107             1                       4654             43: stage1_output = (15); 
+    108             1                       4761             44: stage1_output = (13); 
+    109             1                       4815             45: stage1_output = (4); 
+    110             1                       4638             46: stage1_output = (1); 
+    111             1                       4695             47: stage1_output = (2); 
+    112             1                       4688             48: stage1_output = (5); 
+    113             1                       4998             49: stage1_output = (11); 
+    114             1                       4668             50: stage1_output = (8); 
+    115             1                       4747             51: stage1_output = (6); 
+    116             1                       4814             52: stage1_output = (12); 
+    117             1                       4589             53: stage1_output = (7); 
+    118             1                       4541             54: stage1_output = (6); 
+    119             1                       5347             55: stage1_output = (12); 
+    120             1                       4741             56: stage1_output = (9); 
+    121             1                       4688             57: stage1_output = (0); 
+    122             1                       4685             58: stage1_output = (3); 
+    123             1                       4867             59: stage1_output = (5); 
+    124             1                       4778             60: stage1_output = (2); 
+    125             1                       4735             61: stage1_output = (14); 
+    126             1                       4729             62: stage1_output = (15); 
+    127             1                       7619             63: stage1_output = (9); 
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                          8         8         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.s2
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                stage1_output[0-3]           1           1      100.00 
+
+Total Node Count     =          4 
+Toggled Node Count   =          4 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (8 of 8 bins)
+
+=================================================================================
+=== Design Unit: work.s3
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        65        64         1    98.46%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.s3
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s3.v
+------------------------------------CASE Branch------------------------------------
+    62                                    314500     Count coming in to CASE
+    64              1                      14660             0: stage1_output = (10); 
+    65              1                       5212             1: stage1_output = (13); 
+    66              1                       4862             2: stage1_output = (0); 
+    67              1                       4853             3: stage1_output = (7); 
+    68              1                       4881             4: stage1_output = (9); 
+    69              1                       4572             5: stage1_output = (0); 
+    70              1                       4646             6: stage1_output = (14); 
+    71              1                       4567             7: stage1_output = (9); 
+    72              1                       4976             8: stage1_output = (6); 
+    73              1                       4672             9: stage1_output = (3); 
+    74              1                       4805             10: stage1_output = (3); 
+    75              1                       4731             11: stage1_output = (4); 
+    76              1                       4586             12: stage1_output = (15); 
+    77              1                       4395             13: stage1_output = (6); 
+    78              1                       4731             14: stage1_output = (5); 
+    79              1                       4703             15: stage1_output = (10); 
+    80              1                       4852             16: stage1_output = (1); 
+    81              1                       4683             17: stage1_output = (2); 
+    82              1                       4879             18: stage1_output = (13); 
+    83              1                       4748             19: stage1_output = (8); 
+    84              1                       4737             20: stage1_output = (12); 
+    85              1                       4572             21: stage1_output = (5); 
+    86              1                       4585             22: stage1_output = (7); 
+    87              1                       4632             23: stage1_output = (14); 
+    88              1                       4950             24: stage1_output = (11); 
+    89              1                       4708             25: stage1_output = (12); 
+    90              1                       4780             26: stage1_output = (4); 
+    91              1                       4899             27: stage1_output = (11); 
+    92              1                       4705             28: stage1_output = (2); 
+    93              1                       4536             29: stage1_output = (15); 
+    94              1                       4524             30: stage1_output = (8); 
+    95              1                       4647             31: stage1_output = (1); 
+    96              1                       4763             32: stage1_output = (13); 
+    97              1                       4760             33: stage1_output = (1); 
+    98              1                       4540             34: stage1_output = (6); 
+    99              1                       4799             35: stage1_output = (10); 
+    100             1                       4806             36: stage1_output = (4); 
+    101             1                       4736             37: stage1_output = (13); 
+    102             1                       4611             38: stage1_output = (9); 
+    103             1                       4846             39: stage1_output = (0); 
+    104             1                       4584             40: stage1_output = (8); 
+    105             1                       4561             41: stage1_output = (6); 
+    106             1                       4505             42: stage1_output = (15); 
+    107             1                       4870             43: stage1_output = (9); 
+    108             1                       4562             44: stage1_output = (3); 
+    109             1                       4669             45: stage1_output = (8); 
+    110             1                       4624             46: stage1_output = (0); 
+    111             1                       4638             47: stage1_output = (7); 
+    112             1                       4561             48: stage1_output = (11); 
+    113             1                       4776             49: stage1_output = (4); 
+    114             1                       4618             50: stage1_output = (1); 
+    115             1                       4652             51: stage1_output = (15); 
+    116             1                       4602             52: stage1_output = (2); 
+    117             1                       4670             53: stage1_output = (14); 
+    118             1                       4743             54: stage1_output = (12); 
+    119             1                       4751             55: stage1_output = (3); 
+    120             1                       4594             56: stage1_output = (5); 
+    121             1                       4721             57: stage1_output = (11); 
+    122             1                       4807             58: stage1_output = (10); 
+    123             1                       4783             59: stage1_output = (5); 
+    124             1                       4603             60: stage1_output = (14); 
+    125             1                       5150             61: stage1_output = (2); 
+    126             1                       4713             62: stage1_output = (7); 
+    127             1                       7593             63: stage1_output = (12); 
+                                         ***0***     All False Count
+Branch totals: 64 hits of 65 branches = 98.46%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      65        65         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.s3 --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s3.v
+    50                                               module s3(stage1_input,stage1_output);
+    51                                               input [5:0] stage1_input;
+    52                                               output [3:0] stage1_output;
+    53                                               
+    54                                               reg [3:0] stage1_output;
+    55                                               
+    56                                               
+    57                                               
+    58              1                     314500     always @(  stage1_input)
+    59                                               
+    60                                               begin
+    61                                               
+    62                                                  case(stage1_input)
+    63                                               
+    64              1                      14660             0: stage1_output = (10); 
+    65              1                       5212             1: stage1_output = (13); 
+    66              1                       4862             2: stage1_output = (0); 
+    67              1                       4853             3: stage1_output = (7); 
+    68              1                       4881             4: stage1_output = (9); 
+    69              1                       4572             5: stage1_output = (0); 
+    70              1                       4646             6: stage1_output = (14); 
+    71              1                       4567             7: stage1_output = (9); 
+    72              1                       4976             8: stage1_output = (6); 
+    73              1                       4672             9: stage1_output = (3); 
+    74              1                       4805             10: stage1_output = (3); 
+    75              1                       4731             11: stage1_output = (4); 
+    76              1                       4586             12: stage1_output = (15); 
+    77              1                       4395             13: stage1_output = (6); 
+    78              1                       4731             14: stage1_output = (5); 
+    79              1                       4703             15: stage1_output = (10); 
+    80              1                       4852             16: stage1_output = (1); 
+    81              1                       4683             17: stage1_output = (2); 
+    82              1                       4879             18: stage1_output = (13); 
+    83              1                       4748             19: stage1_output = (8); 
+    84              1                       4737             20: stage1_output = (12); 
+    85              1                       4572             21: stage1_output = (5); 
+    86              1                       4585             22: stage1_output = (7); 
+    87              1                       4632             23: stage1_output = (14); 
+    88              1                       4950             24: stage1_output = (11); 
+    89              1                       4708             25: stage1_output = (12); 
+    90              1                       4780             26: stage1_output = (4); 
+    91              1                       4899             27: stage1_output = (11); 
+    92              1                       4705             28: stage1_output = (2); 
+    93              1                       4536             29: stage1_output = (15); 
+    94              1                       4524             30: stage1_output = (8); 
+    95              1                       4647             31: stage1_output = (1); 
+    96              1                       4763             32: stage1_output = (13); 
+    97              1                       4760             33: stage1_output = (1); 
+    98              1                       4540             34: stage1_output = (6); 
+    99              1                       4799             35: stage1_output = (10); 
+    100             1                       4806             36: stage1_output = (4); 
+    101             1                       4736             37: stage1_output = (13); 
+    102             1                       4611             38: stage1_output = (9); 
+    103             1                       4846             39: stage1_output = (0); 
+    104             1                       4584             40: stage1_output = (8); 
+    105             1                       4561             41: stage1_output = (6); 
+    106             1                       4505             42: stage1_output = (15); 
+    107             1                       4870             43: stage1_output = (9); 
+    108             1                       4562             44: stage1_output = (3); 
+    109             1                       4669             45: stage1_output = (8); 
+    110             1                       4624             46: stage1_output = (0); 
+    111             1                       4638             47: stage1_output = (7); 
+    112             1                       4561             48: stage1_output = (11); 
+    113             1                       4776             49: stage1_output = (4); 
+    114             1                       4618             50: stage1_output = (1); 
+    115             1                       4652             51: stage1_output = (15); 
+    116             1                       4602             52: stage1_output = (2); 
+    117             1                       4670             53: stage1_output = (14); 
+    118             1                       4743             54: stage1_output = (12); 
+    119             1                       4751             55: stage1_output = (3); 
+    120             1                       4594             56: stage1_output = (5); 
+    121             1                       4721             57: stage1_output = (11); 
+    122             1                       4807             58: stage1_output = (10); 
+    123             1                       4783             59: stage1_output = (5); 
+    124             1                       4603             60: stage1_output = (14); 
+    125             1                       5150             61: stage1_output = (2); 
+    126             1                       4713             62: stage1_output = (7); 
+    127             1                       7593             63: stage1_output = (12); 
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                          8         8         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.s3
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                stage1_output[0-3]           1           1      100.00 
+
+Total Node Count     =          4 
+Toggled Node Count   =          4 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (8 of 8 bins)
+
+=================================================================================
+=== Design Unit: work.s4
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        65        64         1    98.46%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.s4
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s4.v
+------------------------------------CASE Branch------------------------------------
+    62                                    314061     Count coming in to CASE
+    64              1                      14852             0: stage1_output = (7); 
+    65              1                       5431             1: stage1_output = (13); 
+    66              1                       4769             2: stage1_output = (13); 
+    67              1                       4640             3: stage1_output = (8); 
+    68              1                       4769             4: stage1_output = (14); 
+    69              1                       4511             5: stage1_output = (11); 
+    70              1                       4691             6: stage1_output = (3); 
+    71              1                       4690             7: stage1_output = (5); 
+    72              1                       5039             8: stage1_output = (0); 
+    73              1                       4533             9: stage1_output = (6); 
+    74              1                       4606             10: stage1_output = (6); 
+    75              1                       4793             11: stage1_output = (15); 
+    76              1                       4485             12: stage1_output = (9); 
+    77              1                       4573             13: stage1_output = (0); 
+    78              1                       4536             14: stage1_output = (10); 
+    79              1                       4578             15: stage1_output = (3); 
+    80              1                       4820             16: stage1_output = (1); 
+    81              1                       4637             17: stage1_output = (4); 
+    82              1                       4757             18: stage1_output = (2); 
+    83              1                       4843             19: stage1_output = (7); 
+    84              1                       4690             20: stage1_output = (8); 
+    85              1                       4545             21: stage1_output = (2); 
+    86              1                       4594             22: stage1_output = (5); 
+    87              1                       4706             23: stage1_output = (12); 
+    88              1                       4778             24: stage1_output = (11); 
+    89              1                       4775             25: stage1_output = (1); 
+    90              1                       4539             26: stage1_output = (12); 
+    91              1                       4544             27: stage1_output = (10); 
+    92              1                       4685             28: stage1_output = (4); 
+    93              1                       4530             29: stage1_output = (14); 
+    94              1                       4517             30: stage1_output = (15); 
+    95              1                       4766             31: stage1_output = (9); 
+    96              1                       5166             32: stage1_output = (10); 
+    97              1                       4793             33: stage1_output = (3); 
+    98              1                       4638             34: stage1_output = (6); 
+    99              1                       4585             35: stage1_output = (15); 
+    100             1                       4774             36: stage1_output = (9); 
+    101             1                       4586             37: stage1_output = (0); 
+    102             1                       4580             38: stage1_output = (0); 
+    103             1                       4700             39: stage1_output = (6); 
+    104             1                       4710             40: stage1_output = (12); 
+    105             1                       4745             41: stage1_output = (10); 
+    106             1                       4666             42: stage1_output = (11); 
+    107             1                       4483             43: stage1_output = (1); 
+    108             1                       4474             44: stage1_output = (7); 
+    109             1                       4554             45: stage1_output = (13); 
+    110             1                       4582             46: stage1_output = (13); 
+    111             1                       4829             47: stage1_output = (8); 
+    112             1                       4758             48: stage1_output = (15); 
+    113             1                       4943             49: stage1_output = (9); 
+    114             1                       4744             50: stage1_output = (1); 
+    115             1                       4645             51: stage1_output = (4); 
+    116             1                       5029             52: stage1_output = (3); 
+    117             1                       4902             53: stage1_output = (5); 
+    118             1                       4572             54: stage1_output = (14); 
+    119             1                       4625             55: stage1_output = (11); 
+    120             1                       4705             56: stage1_output = (5); 
+    121             1                       4599             57: stage1_output = (12); 
+    122             1                       4534             58: stage1_output = (2); 
+    123             1                       4794             59: stage1_output = (7); 
+    124             1                       4834             60: stage1_output = (8); 
+    125             1                       4842             61: stage1_output = (2); 
+    126             1                       4915             62: stage1_output = (4); 
+    127             1                       7533             63: stage1_output = (14); 
+                                         ***0***     All False Count
+Branch totals: 64 hits of 65 branches = 98.46%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      65        65         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.s4 --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s4.v
+    50                                               module s4(stage1_input,stage1_output);
+    51                                               input [5:0] stage1_input;
+    52                                               output [3:0] stage1_output;
+    53                                               
+    54                                               reg [3:0] stage1_output;
+    55                                               
+    56                                               
+    57                                               
+    58              1                     314061     always @(  stage1_input)
+    59                                               
+    60                                               begin
+    61                                               
+    62                                                  case(stage1_input)
+    63                                               
+    64              1                      14852             0: stage1_output = (7); 
+    65              1                       5431             1: stage1_output = (13); 
+    66              1                       4769             2: stage1_output = (13); 
+    67              1                       4640             3: stage1_output = (8); 
+    68              1                       4769             4: stage1_output = (14); 
+    69              1                       4511             5: stage1_output = (11); 
+    70              1                       4691             6: stage1_output = (3); 
+    71              1                       4690             7: stage1_output = (5); 
+    72              1                       5039             8: stage1_output = (0); 
+    73              1                       4533             9: stage1_output = (6); 
+    74              1                       4606             10: stage1_output = (6); 
+    75              1                       4793             11: stage1_output = (15); 
+    76              1                       4485             12: stage1_output = (9); 
+    77              1                       4573             13: stage1_output = (0); 
+    78              1                       4536             14: stage1_output = (10); 
+    79              1                       4578             15: stage1_output = (3); 
+    80              1                       4820             16: stage1_output = (1); 
+    81              1                       4637             17: stage1_output = (4); 
+    82              1                       4757             18: stage1_output = (2); 
+    83              1                       4843             19: stage1_output = (7); 
+    84              1                       4690             20: stage1_output = (8); 
+    85              1                       4545             21: stage1_output = (2); 
+    86              1                       4594             22: stage1_output = (5); 
+    87              1                       4706             23: stage1_output = (12); 
+    88              1                       4778             24: stage1_output = (11); 
+    89              1                       4775             25: stage1_output = (1); 
+    90              1                       4539             26: stage1_output = (12); 
+    91              1                       4544             27: stage1_output = (10); 
+    92              1                       4685             28: stage1_output = (4); 
+    93              1                       4530             29: stage1_output = (14); 
+    94              1                       4517             30: stage1_output = (15); 
+    95              1                       4766             31: stage1_output = (9); 
+    96              1                       5166             32: stage1_output = (10); 
+    97              1                       4793             33: stage1_output = (3); 
+    98              1                       4638             34: stage1_output = (6); 
+    99              1                       4585             35: stage1_output = (15); 
+    100             1                       4774             36: stage1_output = (9); 
+    101             1                       4586             37: stage1_output = (0); 
+    102             1                       4580             38: stage1_output = (0); 
+    103             1                       4700             39: stage1_output = (6); 
+    104             1                       4710             40: stage1_output = (12); 
+    105             1                       4745             41: stage1_output = (10); 
+    106             1                       4666             42: stage1_output = (11); 
+    107             1                       4483             43: stage1_output = (1); 
+    108             1                       4474             44: stage1_output = (7); 
+    109             1                       4554             45: stage1_output = (13); 
+    110             1                       4582             46: stage1_output = (13); 
+    111             1                       4829             47: stage1_output = (8); 
+    112             1                       4758             48: stage1_output = (15); 
+    113             1                       4943             49: stage1_output = (9); 
+    114             1                       4744             50: stage1_output = (1); 
+    115             1                       4645             51: stage1_output = (4); 
+    116             1                       5029             52: stage1_output = (3); 
+    117             1                       4902             53: stage1_output = (5); 
+    118             1                       4572             54: stage1_output = (14); 
+    119             1                       4625             55: stage1_output = (11); 
+    120             1                       4705             56: stage1_output = (5); 
+    121             1                       4599             57: stage1_output = (12); 
+    122             1                       4534             58: stage1_output = (2); 
+    123             1                       4794             59: stage1_output = (7); 
+    124             1                       4834             60: stage1_output = (8); 
+    125             1                       4842             61: stage1_output = (2); 
+    126             1                       4915             62: stage1_output = (4); 
+    127             1                       7533             63: stage1_output = (14); 
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                          8         8         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.s4
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                stage1_output[0-3]           1           1      100.00 
+
+Total Node Count     =          4 
+Toggled Node Count   =          4 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (8 of 8 bins)
+
+=================================================================================
+=== Design Unit: work.s5
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        65        64         1    98.46%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.s5
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s5.v
+------------------------------------CASE Branch------------------------------------
+    62                                    312925     Count coming in to CASE
+    64              1                      14679             0: stage1_output = (2); 
+    65              1                       5156             1: stage1_output = (14); 
+    66              1                       4800             2: stage1_output = (12); 
+    67              1                       4806             3: stage1_output = (11); 
+    68              1                       5141             4: stage1_output = (4); 
+    69              1                       4450             5: stage1_output = (2); 
+    70              1                       4726             6: stage1_output = (1); 
+    71              1                       4756             7: stage1_output = (12); 
+    72              1                       4926             8: stage1_output = (7); 
+    73              1                       4712             9: stage1_output = (4); 
+    74              1                       4835             10: stage1_output = (10); 
+    75              1                       4534             11: stage1_output = (7); 
+    76              1                       4720             12: stage1_output = (11); 
+    77              1                       4715             13: stage1_output = (13); 
+    78              1                       4580             14: stage1_output = (6); 
+    79              1                       4613             15: stage1_output = (1); 
+    80              1                       5159             16: stage1_output = (8); 
+    81              1                       4662             17: stage1_output = (5); 
+    82              1                       4693             18: stage1_output = (5); 
+    83              1                       4612             19: stage1_output = (0); 
+    84              1                       4739             20: stage1_output = (3); 
+    85              1                       4797             21: stage1_output = (15); 
+    86              1                       4567             22: stage1_output = (15); 
+    87              1                       4454             23: stage1_output = (10); 
+    88              1                       4754             24: stage1_output = (13); 
+    89              1                       4818             25: stage1_output = (3); 
+    90              1                       4593             26: stage1_output = (0); 
+    91              1                       4809             27: stage1_output = (9); 
+    92              1                       4582             28: stage1_output = (14); 
+    93              1                       4580             29: stage1_output = (8); 
+    94              1                       4735             30: stage1_output = (9); 
+    95              1                       4811             31: stage1_output = (6); 
+    96              1                       4657             32: stage1_output = (4); 
+    97              1                       4792             33: stage1_output = (11); 
+    98              1                       4551             34: stage1_output = (2); 
+    99              1                       4580             35: stage1_output = (8); 
+    100             1                       4572             36: stage1_output = (1); 
+    101             1                       4592             37: stage1_output = (12); 
+    102             1                       4481             38: stage1_output = (11); 
+    103             1                       4560             39: stage1_output = (7); 
+    104             1                       4590             40: stage1_output = (10); 
+    105             1                       4595             41: stage1_output = (1); 
+    106             1                       4666             42: stage1_output = (13); 
+    107             1                       4734             43: stage1_output = (14); 
+    108             1                       4586             44: stage1_output = (7); 
+    109             1                       4635             45: stage1_output = (2); 
+    110             1                       4649             46: stage1_output = (8); 
+    111             1                       4783             47: stage1_output = (13); 
+    112             1                       4668             48: stage1_output = (15); 
+    113             1                       4656             49: stage1_output = (6); 
+    114             1                       4696             50: stage1_output = (9); 
+    115             1                       4705             51: stage1_output = (15); 
+    116             1                       4620             52: stage1_output = (12); 
+    117             1                       4561             53: stage1_output = (0); 
+    118             1                       4451             54: stage1_output = (5); 
+    119             1                       4721             55: stage1_output = (9); 
+    120             1                       4451             56: stage1_output = (6); 
+    121             1                       4530             57: stage1_output = (10); 
+    122             1                       4789             58: stage1_output = (3); 
+    123             1                       4739             59: stage1_output = (4); 
+    124             1                       4848             60: stage1_output = (0); 
+    125             1                       4756             61: stage1_output = (5); 
+    126             1                       4644             62: stage1_output = (14); 
+    127             1                       7553             63: stage1_output = (3); 
+                                         ***0***     All False Count
+Branch totals: 64 hits of 65 branches = 98.46%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      65        65         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.s5 --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s5.v
+    50                                               module s5(stage1_input,stage1_output);
+    51                                               input [5:0] stage1_input;
+    52                                               output [3:0] stage1_output;
+    53                                               
+    54                                               reg [3:0] stage1_output;
+    55                                               
+    56                                               
+    57                                               
+    58              1                     312925     always @(  stage1_input)
+    59                                               
+    60                                               begin
+    61                                               
+    62                                                  case(stage1_input)
+    63                                               
+    64              1                      14679             0: stage1_output = (2); 
+    65              1                       5156             1: stage1_output = (14); 
+    66              1                       4800             2: stage1_output = (12); 
+    67              1                       4806             3: stage1_output = (11); 
+    68              1                       5141             4: stage1_output = (4); 
+    69              1                       4450             5: stage1_output = (2); 
+    70              1                       4726             6: stage1_output = (1); 
+    71              1                       4756             7: stage1_output = (12); 
+    72              1                       4926             8: stage1_output = (7); 
+    73              1                       4712             9: stage1_output = (4); 
+    74              1                       4835             10: stage1_output = (10); 
+    75              1                       4534             11: stage1_output = (7); 
+    76              1                       4720             12: stage1_output = (11); 
+    77              1                       4715             13: stage1_output = (13); 
+    78              1                       4580             14: stage1_output = (6); 
+    79              1                       4613             15: stage1_output = (1); 
+    80              1                       5159             16: stage1_output = (8); 
+    81              1                       4662             17: stage1_output = (5); 
+    82              1                       4693             18: stage1_output = (5); 
+    83              1                       4612             19: stage1_output = (0); 
+    84              1                       4739             20: stage1_output = (3); 
+    85              1                       4797             21: stage1_output = (15); 
+    86              1                       4567             22: stage1_output = (15); 
+    87              1                       4454             23: stage1_output = (10); 
+    88              1                       4754             24: stage1_output = (13); 
+    89              1                       4818             25: stage1_output = (3); 
+    90              1                       4593             26: stage1_output = (0); 
+    91              1                       4809             27: stage1_output = (9); 
+    92              1                       4582             28: stage1_output = (14); 
+    93              1                       4580             29: stage1_output = (8); 
+    94              1                       4735             30: stage1_output = (9); 
+    95              1                       4811             31: stage1_output = (6); 
+    96              1                       4657             32: stage1_output = (4); 
+    97              1                       4792             33: stage1_output = (11); 
+    98              1                       4551             34: stage1_output = (2); 
+    99              1                       4580             35: stage1_output = (8); 
+    100             1                       4572             36: stage1_output = (1); 
+    101             1                       4592             37: stage1_output = (12); 
+    102             1                       4481             38: stage1_output = (11); 
+    103             1                       4560             39: stage1_output = (7); 
+    104             1                       4590             40: stage1_output = (10); 
+    105             1                       4595             41: stage1_output = (1); 
+    106             1                       4666             42: stage1_output = (13); 
+    107             1                       4734             43: stage1_output = (14); 
+    108             1                       4586             44: stage1_output = (7); 
+    109             1                       4635             45: stage1_output = (2); 
+    110             1                       4649             46: stage1_output = (8); 
+    111             1                       4783             47: stage1_output = (13); 
+    112             1                       4668             48: stage1_output = (15); 
+    113             1                       4656             49: stage1_output = (6); 
+    114             1                       4696             50: stage1_output = (9); 
+    115             1                       4705             51: stage1_output = (15); 
+    116             1                       4620             52: stage1_output = (12); 
+    117             1                       4561             53: stage1_output = (0); 
+    118             1                       4451             54: stage1_output = (5); 
+    119             1                       4721             55: stage1_output = (9); 
+    120             1                       4451             56: stage1_output = (6); 
+    121             1                       4530             57: stage1_output = (10); 
+    122             1                       4789             58: stage1_output = (3); 
+    123             1                       4739             59: stage1_output = (4); 
+    124             1                       4848             60: stage1_output = (0); 
+    125             1                       4756             61: stage1_output = (5); 
+    126             1                       4644             62: stage1_output = (14); 
+    127             1                       7553             63: stage1_output = (3); 
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                          8         8         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.s5
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                stage1_output[0-3]           1           1      100.00 
+
+Total Node Count     =          4 
+Toggled Node Count   =          4 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (8 of 8 bins)
+
+=================================================================================
+=== Design Unit: work.s6
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        65        64         1    98.46%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.s6
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s6.v
+------------------------------------CASE Branch------------------------------------
+    62                                    312379     Count coming in to CASE
+    64              1                      14624             0: stage1_output = (12); 
+    65              1                       5221             1: stage1_output = (10); 
+    66              1                       4747             2: stage1_output = (1); 
+    67              1                       4577             3: stage1_output = (15); 
+    68              1                       5256             4: stage1_output = (10); 
+    69              1                       4900             5: stage1_output = (4); 
+    70              1                       4703             6: stage1_output = (15); 
+    71              1                       4490             7: stage1_output = (2); 
+    72              1                       4807             8: stage1_output = (9); 
+    73              1                       4638             9: stage1_output = (7); 
+    74              1                       4673             10: stage1_output = (2); 
+    75              1                       4618             11: stage1_output = (12); 
+    76              1                       4689             12: stage1_output = (6); 
+    77              1                       4553             13: stage1_output = (9); 
+    78              1                       4550             14: stage1_output = (8); 
+    79              1                       4690             15: stage1_output = (5); 
+    80              1                       4846             16: stage1_output = (0); 
+    81              1                       4581             17: stage1_output = (6); 
+    82              1                       4776             18: stage1_output = (13); 
+    83              1                       4657             19: stage1_output = (1); 
+    84              1                       4770             20: stage1_output = (3); 
+    85              1                       4561             21: stage1_output = (13); 
+    86              1                       4701             22: stage1_output = (4); 
+    87              1                       4759             23: stage1_output = (14); 
+    88              1                       4669             24: stage1_output = (14); 
+    89              1                       4611             25: stage1_output = (0); 
+    90              1                       4837             26: stage1_output = (7); 
+    91              1                       4699             27: stage1_output = (11); 
+    92              1                       4589             28: stage1_output = (5); 
+    93              1                       4532             29: stage1_output = (3); 
+    94              1                       4572             30: stage1_output = (11); 
+    95              1                       4699             31: stage1_output = (8); 
+    96              1                       4751             32: stage1_output = (9); 
+    97              1                       4587             33: stage1_output = (4); 
+    98              1                       4621             34: stage1_output = (14); 
+    99              1                       4541             35: stage1_output = (3); 
+    100             1                       4708             36: stage1_output = (15); 
+    101             1                       4663             37: stage1_output = (2); 
+    102             1                       4630             38: stage1_output = (5); 
+    103             1                       4887             39: stage1_output = (12); 
+    104             1                       4504             40: stage1_output = (2); 
+    105             1                       4467             41: stage1_output = (9); 
+    106             1                       4489             42: stage1_output = (8); 
+    107             1                       4605             43: stage1_output = (5); 
+    108             1                       4554             44: stage1_output = (12); 
+    109             1                       4719             45: stage1_output = (15); 
+    110             1                       4798             46: stage1_output = (3); 
+    111             1                       4741             47: stage1_output = (10); 
+    112             1                       4459             48: stage1_output = (7); 
+    113             1                       4636             49: stage1_output = (11); 
+    114             1                       4579             50: stage1_output = (0); 
+    115             1                       4626             51: stage1_output = (14); 
+    116             1                       4670             52: stage1_output = (4); 
+    117             1                       4671             53: stage1_output = (1); 
+    118             1                       4913             54: stage1_output = (10); 
+    119             1                       5009             55: stage1_output = (7); 
+    120             1                       4477             56: stage1_output = (1); 
+    121             1                       4529             57: stage1_output = (6); 
+    122             1                       4529             58: stage1_output = (13); 
+    123             1                       4761             59: stage1_output = (0); 
+    124             1                       4501             60: stage1_output = (11); 
+    125             1                       4649             61: stage1_output = (8); 
+    126             1                       4830             62: stage1_output = (6); 
+    127             1                       7680             63: stage1_output = (13); 
+                                         ***0***     All False Count
+Branch totals: 64 hits of 65 branches = 98.46%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      65        65         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.s6 --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s6.v
+    50                                               module s6(stage1_input,stage1_output);
+    51                                               input [5:0] stage1_input;
+    52                                               output [3:0] stage1_output;
+    53                                               
+    54                                               reg [3:0] stage1_output;
+    55                                               
+    56                                               
+    57                                               
+    58              1                     312379     always @(  stage1_input)
+    59                                               
+    60                                               begin
+    61                                               
+    62                                                  case(stage1_input)
+    63                                               
+    64              1                      14624             0: stage1_output = (12); 
+    65              1                       5221             1: stage1_output = (10); 
+    66              1                       4747             2: stage1_output = (1); 
+    67              1                       4577             3: stage1_output = (15); 
+    68              1                       5256             4: stage1_output = (10); 
+    69              1                       4900             5: stage1_output = (4); 
+    70              1                       4703             6: stage1_output = (15); 
+    71              1                       4490             7: stage1_output = (2); 
+    72              1                       4807             8: stage1_output = (9); 
+    73              1                       4638             9: stage1_output = (7); 
+    74              1                       4673             10: stage1_output = (2); 
+    75              1                       4618             11: stage1_output = (12); 
+    76              1                       4689             12: stage1_output = (6); 
+    77              1                       4553             13: stage1_output = (9); 
+    78              1                       4550             14: stage1_output = (8); 
+    79              1                       4690             15: stage1_output = (5); 
+    80              1                       4846             16: stage1_output = (0); 
+    81              1                       4581             17: stage1_output = (6); 
+    82              1                       4776             18: stage1_output = (13); 
+    83              1                       4657             19: stage1_output = (1); 
+    84              1                       4770             20: stage1_output = (3); 
+    85              1                       4561             21: stage1_output = (13); 
+    86              1                       4701             22: stage1_output = (4); 
+    87              1                       4759             23: stage1_output = (14); 
+    88              1                       4669             24: stage1_output = (14); 
+    89              1                       4611             25: stage1_output = (0); 
+    90              1                       4837             26: stage1_output = (7); 
+    91              1                       4699             27: stage1_output = (11); 
+    92              1                       4589             28: stage1_output = (5); 
+    93              1                       4532             29: stage1_output = (3); 
+    94              1                       4572             30: stage1_output = (11); 
+    95              1                       4699             31: stage1_output = (8); 
+    96              1                       4751             32: stage1_output = (9); 
+    97              1                       4587             33: stage1_output = (4); 
+    98              1                       4621             34: stage1_output = (14); 
+    99              1                       4541             35: stage1_output = (3); 
+    100             1                       4708             36: stage1_output = (15); 
+    101             1                       4663             37: stage1_output = (2); 
+    102             1                       4630             38: stage1_output = (5); 
+    103             1                       4887             39: stage1_output = (12); 
+    104             1                       4504             40: stage1_output = (2); 
+    105             1                       4467             41: stage1_output = (9); 
+    106             1                       4489             42: stage1_output = (8); 
+    107             1                       4605             43: stage1_output = (5); 
+    108             1                       4554             44: stage1_output = (12); 
+    109             1                       4719             45: stage1_output = (15); 
+    110             1                       4798             46: stage1_output = (3); 
+    111             1                       4741             47: stage1_output = (10); 
+    112             1                       4459             48: stage1_output = (7); 
+    113             1                       4636             49: stage1_output = (11); 
+    114             1                       4579             50: stage1_output = (0); 
+    115             1                       4626             51: stage1_output = (14); 
+    116             1                       4670             52: stage1_output = (4); 
+    117             1                       4671             53: stage1_output = (1); 
+    118             1                       4913             54: stage1_output = (10); 
+    119             1                       5009             55: stage1_output = (7); 
+    120             1                       4477             56: stage1_output = (1); 
+    121             1                       4529             57: stage1_output = (6); 
+    122             1                       4529             58: stage1_output = (13); 
+    123             1                       4761             59: stage1_output = (0); 
+    124             1                       4501             60: stage1_output = (11); 
+    125             1                       4649             61: stage1_output = (8); 
+    126             1                       4830             62: stage1_output = (6); 
+    127             1                       7680             63: stage1_output = (13); 
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                          8         8         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.s6
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                stage1_output[0-3]           1           1      100.00 
+
+Total Node Count     =          4 
+Toggled Node Count   =          4 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (8 of 8 bins)
+
+=================================================================================
+=== Design Unit: work.s7
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        65        64         1    98.46%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.s7
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s7.v
+------------------------------------CASE Branch------------------------------------
+    61                                    312903     Count coming in to CASE
+    63              1                      14497             0: stage1_output = (4); 
+    64              1                       4714             1: stage1_output = (13); 
+    65              1                       4816             2: stage1_output = (11); 
+    66              1                       4581             3: stage1_output = (0); 
+    67              1                       4916             4: stage1_output = (2); 
+    68              1                       4765             5: stage1_output = (11); 
+    69              1                       4758             6: stage1_output = (14); 
+    70              1                       4544             7: stage1_output = (7); 
+    71              1                       4950             8: stage1_output = (15); 
+    72              1                       4542             9: stage1_output = (4); 
+    73              1                       4739             10: stage1_output = (0); 
+    74              1                       4562             11: stage1_output = (9); 
+    75              1                       4751             12: stage1_output = (8); 
+    76              1                       4572             13: stage1_output = (1); 
+    77              1                       4583             14: stage1_output = (13); 
+    78              1                       4602             15: stage1_output = (10); 
+    79              1                       4870             16: stage1_output = (3); 
+    80              1                       4594             17: stage1_output = (14); 
+    81              1                       4769             18: stage1_output = (12); 
+    82              1                       4549             19: stage1_output = (3); 
+    83              1                       4655             20: stage1_output = (9); 
+    84              1                       4716             21: stage1_output = (5); 
+    85              1                       4534             22: stage1_output = (7); 
+    86              1                       4612             23: stage1_output = (12); 
+    87              1                       4749             24: stage1_output = (5); 
+    88              1                       4602             25: stage1_output = (2); 
+    89              1                       4493             26: stage1_output = (10); 
+    90              1                       4630             27: stage1_output = (15); 
+    91              1                       4618             28: stage1_output = (6); 
+    92              1                       4770             29: stage1_output = (8); 
+    93              1                       4576             30: stage1_output = (1); 
+    94              1                       4713             31: stage1_output = (6); 
+    95              1                       5148             32: stage1_output = (1); 
+    96              1                       4636             33: stage1_output = (6); 
+    97              1                       4852             34: stage1_output = (4); 
+    98              1                       4567             35: stage1_output = (11); 
+    99              1                       4931             36: stage1_output = (11); 
+    100             1                       4463             37: stage1_output = (13); 
+    101             1                       4813             38: stage1_output = (13); 
+    102             1                       4607             39: stage1_output = (8); 
+    103             1                       4701             40: stage1_output = (12); 
+    104             1                       4908             41: stage1_output = (1); 
+    105             1                       4450             42: stage1_output = (3); 
+    106             1                       4642             43: stage1_output = (4); 
+    107             1                       4630             44: stage1_output = (7); 
+    108             1                       4732             45: stage1_output = (10); 
+    109             1                       4655             46: stage1_output = (14); 
+    110             1                       4768             47: stage1_output = (7); 
+    111             1                       4564             48: stage1_output = (10); 
+    112             1                       4561             49: stage1_output = (9); 
+    113             1                       4835             50: stage1_output = (15); 
+    114             1                       4528             51: stage1_output = (5); 
+    115             1                       4741             52: stage1_output = (6); 
+    116             1                       4597             53: stage1_output = (0); 
+    117             1                       4705             54: stage1_output = (8); 
+    118             1                       5040             55: stage1_output = (15); 
+    119             1                       4720             56: stage1_output = (0); 
+    120             1                       4434             57: stage1_output = (14); 
+    121             1                       4616             58: stage1_output = (5); 
+    122             1                       4683             59: stage1_output = (2); 
+    123             1                       4861             60: stage1_output = (9); 
+    124             1                       4638             61: stage1_output = (3); 
+    125             1                       4872             62: stage1_output = (2); 
+    126             1                       7663             63: stage1_output = (12); 
+                                         ***0***     All False Count
+Branch totals: 64 hits of 65 branches = 98.46%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      65        65         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.s7 --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s7.v
+    49                                               module s7(stage1_input,stage1_output);
+    50                                               input [5:0] stage1_input;
+    51                                               output [3:0] stage1_output;
+    52                                               
+    53                                               reg [3:0] stage1_output;
+    54                                               
+    55                                               
+    56                                               
+    57              1                     312903     always @(  stage1_input)
+    58                                               
+    59                                               begin
+    60                                               
+    61                                                  case(stage1_input)
+    62                                               
+    63              1                      14497             0: stage1_output = (4); 
+    64              1                       4714             1: stage1_output = (13); 
+    65              1                       4816             2: stage1_output = (11); 
+    66              1                       4581             3: stage1_output = (0); 
+    67              1                       4916             4: stage1_output = (2); 
+    68              1                       4765             5: stage1_output = (11); 
+    69              1                       4758             6: stage1_output = (14); 
+    70              1                       4544             7: stage1_output = (7); 
+    71              1                       4950             8: stage1_output = (15); 
+    72              1                       4542             9: stage1_output = (4); 
+    73              1                       4739             10: stage1_output = (0); 
+    74              1                       4562             11: stage1_output = (9); 
+    75              1                       4751             12: stage1_output = (8); 
+    76              1                       4572             13: stage1_output = (1); 
+    77              1                       4583             14: stage1_output = (13); 
+    78              1                       4602             15: stage1_output = (10); 
+    79              1                       4870             16: stage1_output = (3); 
+    80              1                       4594             17: stage1_output = (14); 
+    81              1                       4769             18: stage1_output = (12); 
+    82              1                       4549             19: stage1_output = (3); 
+    83              1                       4655             20: stage1_output = (9); 
+    84              1                       4716             21: stage1_output = (5); 
+    85              1                       4534             22: stage1_output = (7); 
+    86              1                       4612             23: stage1_output = (12); 
+    87              1                       4749             24: stage1_output = (5); 
+    88              1                       4602             25: stage1_output = (2); 
+    89              1                       4493             26: stage1_output = (10); 
+    90              1                       4630             27: stage1_output = (15); 
+    91              1                       4618             28: stage1_output = (6); 
+    92              1                       4770             29: stage1_output = (8); 
+    93              1                       4576             30: stage1_output = (1); 
+    94              1                       4713             31: stage1_output = (6); 
+    95              1                       5148             32: stage1_output = (1); 
+    96              1                       4636             33: stage1_output = (6); 
+    97              1                       4852             34: stage1_output = (4); 
+    98              1                       4567             35: stage1_output = (11); 
+    99              1                       4931             36: stage1_output = (11); 
+    100             1                       4463             37: stage1_output = (13); 
+    101             1                       4813             38: stage1_output = (13); 
+    102             1                       4607             39: stage1_output = (8); 
+    103             1                       4701             40: stage1_output = (12); 
+    104             1                       4908             41: stage1_output = (1); 
+    105             1                       4450             42: stage1_output = (3); 
+    106             1                       4642             43: stage1_output = (4); 
+    107             1                       4630             44: stage1_output = (7); 
+    108             1                       4732             45: stage1_output = (10); 
+    109             1                       4655             46: stage1_output = (14); 
+    110             1                       4768             47: stage1_output = (7); 
+    111             1                       4564             48: stage1_output = (10); 
+    112             1                       4561             49: stage1_output = (9); 
+    113             1                       4835             50: stage1_output = (15); 
+    114             1                       4528             51: stage1_output = (5); 
+    115             1                       4741             52: stage1_output = (6); 
+    116             1                       4597             53: stage1_output = (0); 
+    117             1                       4705             54: stage1_output = (8); 
+    118             1                       5040             55: stage1_output = (15); 
+    119             1                       4720             56: stage1_output = (0); 
+    120             1                       4434             57: stage1_output = (14); 
+    121             1                       4616             58: stage1_output = (5); 
+    122             1                       4683             59: stage1_output = (2); 
+    123             1                       4861             60: stage1_output = (9); 
+    124             1                       4638             61: stage1_output = (3); 
+    125             1                       4872             62: stage1_output = (2); 
+    126             1                       7663             63: stage1_output = (12); 
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                          8         8         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.s7
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                stage1_output[0-3]           1           1      100.00 
+
+Total Node Count     =          4 
+Toggled Node Count   =          4 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (8 of 8 bins)
+
+=================================================================================
+=== Design Unit: work.s8
+=================================================================================
+Branch Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Branches                        65        64         1    98.46%
+
+================================Branch Details================================
+
+Branch Coverage for Design Unit work.s8
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s8.v
+------------------------------------CASE Branch------------------------------------
+    61                                    312972     Count coming in to CASE
+    63              1                      14452             0: stage1_output = (13); 
+    64              1                       5371             1: stage1_output = (1); 
+    65              1                       4941             2: stage1_output = (2); 
+    66              1                       4774             3: stage1_output = (15); 
+    67              1                       5210             4: stage1_output = (8); 
+    68              1                       4929             5: stage1_output = (13); 
+    69              1                       4685             6: stage1_output = (4); 
+    70              1                       4547             7: stage1_output = (8); 
+    71              1                       4788             8: stage1_output = (6); 
+    72              1                       4728             9: stage1_output = (10); 
+    73              1                       4595             10: stage1_output = (15); 
+    74              1                       4578             11: stage1_output = (3); 
+    75              1                       4808             12: stage1_output = (11); 
+    76              1                       4559             13: stage1_output = (7); 
+    77              1                       4583             14: stage1_output = (1); 
+    78              1                       4500             15: stage1_output = (4); 
+    79              1                       4866             16: stage1_output = (10); 
+    80              1                       4648             17: stage1_output = (12); 
+    81              1                       4644             18: stage1_output = (9); 
+    82              1                       4728             19: stage1_output = (5); 
+    83              1                       4688             20: stage1_output = (3); 
+    84              1                       4733             21: stage1_output = (6); 
+    85              1                       4488             22: stage1_output = (14); 
+    86              1                       4556             23: stage1_output = (11); 
+    87              1                       4549             24: stage1_output = (5); 
+    88              1                       4573             25: stage1_output = (0); 
+    89              1                       4523             26: stage1_output = (0); 
+    90              1                       4633             27: stage1_output = (14); 
+    91              1                       4610             28: stage1_output = (12); 
+    92              1                       4714             29: stage1_output = (9); 
+    93              1                       4607             30: stage1_output = (7); 
+    94              1                       4823             31: stage1_output = (2); 
+    95              1                       4666             32: stage1_output = (7); 
+    96              1                       4912             33: stage1_output = (2); 
+    97              1                       4595             34: stage1_output = (11); 
+    98              1                       4656             35: stage1_output = (1); 
+    99              1                       4497             36: stage1_output = (4); 
+    100             1                       4700             37: stage1_output = (14); 
+    101             1                       4476             38: stage1_output = (1); 
+    102             1                       4738             39: stage1_output = (7); 
+    103             1                       4704             40: stage1_output = (9); 
+    104             1                       4911             41: stage1_output = (4); 
+    105             1                       4509             42: stage1_output = (12); 
+    106             1                       4615             43: stage1_output = (10); 
+    107             1                       4620             44: stage1_output = (14); 
+    108             1                       4732             45: stage1_output = (8); 
+    109             1                       4734             46: stage1_output = (2); 
+    110             1                       4704             47: stage1_output = (13); 
+    111             1                       4635             48: stage1_output = (0); 
+    112             1                       4676             49: stage1_output = (15); 
+    113             1                       4549             50: stage1_output = (6); 
+    114             1                       4645             51: stage1_output = (12); 
+    115             1                       4531             52: stage1_output = (10); 
+    116             1                       4588             53: stage1_output = (9); 
+    117             1                       4655             54: stage1_output = (13); 
+    118             1                       4584             55: stage1_output = (0); 
+    119             1                       4924             56: stage1_output = (15); 
+    120             1                       4914             57: stage1_output = (3); 
+    121             1                       4593             58: stage1_output = (3); 
+    122             1                       4735             59: stage1_output = (5); 
+    123             1                       4603             60: stage1_output = (5); 
+    124             1                       4877             61: stage1_output = (6); 
+    125             1                       4762             62: stage1_output = (8); 
+    126             1                       7501             63: stage1_output = (11); 
+                                         ***0***     All False Count
+Branch totals: 64 hits of 65 branches = 98.46%
+
+
+Statement Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Statements                      65        65         0   100.00%
+
+================================Statement Details================================
+
+Statement Coverage for Design Unit work.s8 --
+
+    Line         Item                      Count     Source 
+    ----         ----                      -----     ------ 
+  File s8.v
+    49                                               module s8(stage1_input,stage1_output);
+    50                                               input [5:0] stage1_input;
+    51                                               output [3:0] stage1_output;
+    52                                               
+    53                                               reg [3:0] stage1_output;
+    54                                               
+    55                                               
+    56                                               
+    57              1                     312972     always @(stage1_input)
+    58                                               
+    59                                               begin
+    60                                               
+    61                                                  case(stage1_input)
+    62                                               
+    63              1                      14452             0: stage1_output = (13); 
+    64              1                       5371             1: stage1_output = (1); 
+    65              1                       4941             2: stage1_output = (2); 
+    66              1                       4774             3: stage1_output = (15); 
+    67              1                       5210             4: stage1_output = (8); 
+    68              1                       4929             5: stage1_output = (13); 
+    69              1                       4685             6: stage1_output = (4); 
+    70              1                       4547             7: stage1_output = (8); 
+    71              1                       4788             8: stage1_output = (6); 
+    72              1                       4728             9: stage1_output = (10); 
+    73              1                       4595             10: stage1_output = (15); 
+    74              1                       4578             11: stage1_output = (3); 
+    75              1                       4808             12: stage1_output = (11); 
+    76              1                       4559             13: stage1_output = (7); 
+    77              1                       4583             14: stage1_output = (1); 
+    78              1                       4500             15: stage1_output = (4); 
+    79              1                       4866             16: stage1_output = (10); 
+    80              1                       4648             17: stage1_output = (12); 
+    81              1                       4644             18: stage1_output = (9); 
+    82              1                       4728             19: stage1_output = (5); 
+    83              1                       4688             20: stage1_output = (3); 
+    84              1                       4733             21: stage1_output = (6); 
+    85              1                       4488             22: stage1_output = (14); 
+    86              1                       4556             23: stage1_output = (11); 
+    87              1                       4549             24: stage1_output = (5); 
+    88              1                       4573             25: stage1_output = (0); 
+    89              1                       4523             26: stage1_output = (0); 
+    90              1                       4633             27: stage1_output = (14); 
+    91              1                       4610             28: stage1_output = (12); 
+    92              1                       4714             29: stage1_output = (9); 
+    93              1                       4607             30: stage1_output = (7); 
+    94              1                       4823             31: stage1_output = (2); 
+    95              1                       4666             32: stage1_output = (7); 
+    96              1                       4912             33: stage1_output = (2); 
+    97              1                       4595             34: stage1_output = (11); 
+    98              1                       4656             35: stage1_output = (1); 
+    99              1                       4497             36: stage1_output = (4); 
+    100             1                       4700             37: stage1_output = (14); 
+    101             1                       4476             38: stage1_output = (1); 
+    102             1                       4738             39: stage1_output = (7); 
+    103             1                       4704             40: stage1_output = (9); 
+    104             1                       4911             41: stage1_output = (4); 
+    105             1                       4509             42: stage1_output = (12); 
+    106             1                       4615             43: stage1_output = (10); 
+    107             1                       4620             44: stage1_output = (14); 
+    108             1                       4732             45: stage1_output = (8); 
+    109             1                       4734             46: stage1_output = (2); 
+    110             1                       4704             47: stage1_output = (13); 
+    111             1                       4635             48: stage1_output = (0); 
+    112             1                       4676             49: stage1_output = (15); 
+    113             1                       4549             50: stage1_output = (6); 
+    114             1                       4645             51: stage1_output = (12); 
+    115             1                       4531             52: stage1_output = (10); 
+    116             1                       4588             53: stage1_output = (9); 
+    117             1                       4655             54: stage1_output = (13); 
+    118             1                       4584             55: stage1_output = (0); 
+    119             1                       4924             56: stage1_output = (15); 
+    120             1                       4914             57: stage1_output = (3); 
+    121             1                       4593             58: stage1_output = (3); 
+    122             1                       4735             59: stage1_output = (5); 
+    123             1                       4603             60: stage1_output = (5); 
+    124             1                       4877             61: stage1_output = (6); 
+    125             1                       4762             62: stage1_output = (8); 
+    126             1                       7501             63: stage1_output = (11); 
+
+Toggle Coverage:
+    Enabled Coverage              Bins      Hits    Misses  Coverage
+    ----------------              ----      ----    ------  --------
+    Toggles                          8         8         0   100.00%
+
+================================Toggle Details================================
+
+Toggle Coverage for Design Unit work.s8
+
+                                              Node      1H->0L      0L->1H  "Coverage"
+                                              ---------------------------------------
+                                stage1_output[0-3]           1           1      100.00 
+
+Total Node Count     =          4 
+Toggled Node Count   =          4 
+Untoggled Node Count =          0 
+
+Toggle Coverage      =     100.00% (8 of 8 bins)
+
+
+Total Coverage By Design Unit (filtered view): 99.48%
+
