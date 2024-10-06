@@ -31,4 +31,4 @@ The following table describes the interface signals used in the DES module:
 ![image](https://github.com/user-attachments/assets/65acab27-56b7-42ee-b0bb-2643828373f5)
 
 
-For more information about the DES algorithm, please refer to the specification of DES in the doc/DES_spec.pdf directory.
+For more information about the DES algorithm, please refer to the DES specification in the `doc/DES_spec` directory.
