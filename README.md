@@ -19,7 +19,7 @@ The following table describes the interface signals used in the DES module:
 | `out_ready`         | Output        | 1-bit     | Signal indicating output data is ready            |
 
 ## UVM Testbench Architecture
-![DES UVM Env](https://github.com/user-attachments/assets/5189f4de-da25-422c-bd2e-9ce4d6311442)
+![New board - Page 1 (1)](https://github.com/user-attachments/assets/25429527-de53-43b7-b20d-a2f1b22a6f01)
 
 ## Coverage Results
 
